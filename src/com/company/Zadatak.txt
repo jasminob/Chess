@@ -1,0 +1,15 @@
+- 29.10.2018.
+- Dekompozicija koda - svaka klasa svoj java file
+
+- Dodati funkciju ChessPiece pieceAtPosition(String position);
+- u Board dodati toString() koja vraca polje u String formatu
+ocekivani izgled:
+RP____PR
+NP____PN
+BP____PB
+QP____PQ
+KP____PK
+BP____PB
+NP____PN
+RP____PR
+
