@@ -25,7 +25,7 @@ abstract class ChessPiece {
         if (!validNewPosition(position)) {
             throw new Exception("Pozicija nije ok");
         } else {
-
+            this.position = position;
         }
     }
 
