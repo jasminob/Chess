@@ -23,7 +23,7 @@ abstract class ChessPiece {
     public void move(String position) throws Exception {
 
         if (validNewPosition(position)) {
-
+            
         } else throw new Exception("Pozicija nije ok");
     }
 

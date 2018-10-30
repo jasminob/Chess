@@ -15,10 +15,10 @@ class Rook extends ChessPiece {
         int x = Math.abs(this.getPosition().charAt(0) - newPosition.charAt(0));
         int y = Math.abs(this.getPosition().charAt(1) - newPosition.charAt(1));
 
-        if ((x == 0 && y > 0) || (x > 0 && y == 0)) {
-
-        } else {
+        if (!(x == 0 && y > 0) && !(x > 0 && y == 0)) {
             throw new IllegalChessMoveException();
+        } else {
+
         }
     }
 
