@@ -67,7 +67,7 @@ class Board {
     public void move(Class type, ChessPiece.Color color, String position) throws Exception {
 
         for (ChessPiece piece : pieces) {
-                piece.move(position);
+
 
         }
 
