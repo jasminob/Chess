@@ -67,9 +67,8 @@ class Board {
     public void move(Class type, ChessPiece.Color color, String position) throws Exception {
 
         for (ChessPiece piece : pieces) {
-            if (piece.move(position)) {
 
-            } else throw new Exception("das");
+
         }
 
 
@@ -103,8 +102,9 @@ class Board {
                 c = (char) ('a' + j);
                 position = "" + c + i;
 
-                if (atPosition(position) != null) {
-                    result += atPosition(position).toString() + " ";
+                ChessPiece atPosition = atPosition(position);
+                if ( atPosition != null) {
+                    result += atPosition.toString() + " ";
                 } else {
                     result += "- ";
                 }
