@@ -12,6 +12,8 @@ class Rook extends ChessPiece {
 
     @Override
     public void move(String newPosition) throws Exception {
+        super.move(newPosition);
+
         int x = Math.abs(this.getPosition().charAt(0) - newPosition.charAt(0));
         int y = Math.abs(this.getPosition().charAt(1) - newPosition.charAt(1));
 
