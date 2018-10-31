@@ -68,6 +68,55 @@ class Board {
 
 
 
+
+        boolean check = false;
+        for (ChessPiece piece : pieces) {
+            if (type.isInstance(piece) && piece.getColor().equals(color) ) {
+                //Remove piece / Check color
+                if (isPieceAtPosition(targetPosition)) {
+                    ChessPiece other = atPosition(targetPosition);
+                    if (other.getColor().equals(color)) {
+                        throw new IllegalChessMoveException("Same color");
+                    } else {
+                        pieces.remove(other);
+                    }
+                }
+                // Obs
+                if (type.isInstance(Rook.class) || type.isInstance(Queen.class) || type.isInstance(Bishop.class)
+                        || type.isInstance(Pawn.class)) {
+
+                    String startPosition = targetPosition;
+                    char x = startPosition.charAt(0);
+                    char y = startPosition.charAt(1);
+
+                    while (!startPosition.equals(targetPosition)) {
+                        if (x < targetPosition.charAt(0) - 1) {
+                            x++;
+                        }
+                        if (y < targetPosition.charAt(1) - 1) {
+                            y++;
+                        }
+                        startPosition = x + "" + y;
+                        if (isPieceAtPosition(startPosition)) {
+                            throw new IllegalChessMoveException("Another piece is in the way");
+                        }
+                    }
+                }
+                try {
+                    piece.move(targetPosition);
+                    check = true;
+                    break;
+                } catch (IllegalChessMoveException e) {
+
+                }
+            }
+        }
+        if (!check) {
+            throw new IllegalChessMoveException("No piece found");
+        }
+
+
+
     }
 
     public void move(String oldPosition, String newPosition) throws Exception {
