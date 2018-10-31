@@ -69,7 +69,8 @@ class Board {
 
         boolean check = false;
         for (ChessPiece piece : pieces) {
-            if (type.isInstance(piece) && piece.getColor().equals(color)) {                //Remove piece / Check color
+            if (type.isInstance(piece) && piece.getColor().equals(color)) {
+                //Remove piece / Check color
                 if (isPieceAtPosition(targetPosition)) {
                     ChessPiece other = atPosition(targetPosition);
                     if (other.getColor().equals(color)) {
