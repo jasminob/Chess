@@ -70,16 +70,6 @@ class Board {
         for (ChessPiece piece : pieces) {
             if (type.isInstance(piece) && piece.getColor().equals(color)) {
 
-                if (isPieceAtPosition(position)) {
-                    for (ChessPiece piece1 : pieces) {
-                        if (piece1.getColor().equals(color)) {
-                            throw new IllegalChessMoveException();
-                        } else {
-                            piece1 = null;
-                        }
-                    }
-                }
-
                 piece.move(position);
                 check = true;
                 break;
@@ -91,11 +81,21 @@ class Board {
         }
 
 
+        if (isPieceAtPosition(position)) {
 
+            ChessPiece piece = atPosition(position);
+            if (piece.getColor().equals(color)) {
+                throw new IllegalChessMoveException();
+            } else {
+                //Dunno for loop?
+                piece = null;
+            }
 
-   /*    if (type.isInstance(Rook.class) || type.isInstance(Queen.class) || type.isInstance(Bishop.class)
+        }
+
+        if (type.isInstance(Rook.class) || type.isInstance(Queen.class) || type.isInstance(Bishop.class)
                 || type.isInstance(Pawn.class)) {
-            //Dunno for loop?
+
             String startPosition = piece.getPosition();
             char x = startPosition.charAt(0);
             char y = startPosition.charAt(1);
@@ -113,7 +113,7 @@ class Board {
                 }
             }
         }
-        */
+
     }
 
     public void move(String oldPosition, String newPosition) throws Exception {
