@@ -95,7 +95,7 @@ class Board {
 
         if (type.isInstance(Rook.class) || type.isInstance(Queen.class) || type.isInstance(Bishop.class)
                 || type.isInstance(Pawn.class)) {
-        //Dunno
+            //Dunno
             String startPosition = piece.getPosition();
             char x = startPosition.charAt(0);
             char y = startPosition.charAt(1);
@@ -107,7 +107,7 @@ class Board {
                 if (y < position.charAt(1) - 1) {
                     y++;
                 }
-                startPosition = x + y + "";
+                startPosition = x + "" + y;
                 if (isPieceAtPosition(startPosition)) {
                     throw new IllegalChessMoveException();
                 }
@@ -170,7 +170,7 @@ class Board {
         for (int i = 1; i <= 8; i++) {
             for (int j = 0; j < 8; j++) {
                 c = (char) ('a' + j);
-                position = "" + c + i;
+                position = c + "" + i;
 
                 ChessPiece atPosition = atPosition(position);
                 if (atPosition != null) {
