@@ -29,7 +29,6 @@ abstract class ChessPiece {
 
 
     public void move(String position) throws Exception {
-        position.toLowerCase();
         if (!validNewPosition(position)) {
             throw new Exception("Pozicija nije ok");
         } else {
@@ -43,10 +42,11 @@ abstract class ChessPiece {
             throw new Exception("Format nije dure");
         }
 
-
-        position.toLowerCase();
-        if ((position.charAt(0) >= 'a' && position.charAt(0) <= 'z')
-                && (position.charAt(1) >= 1 && position.charAt(1) <= 8)) {
+       position.toLowerCase();
+        char x = position.charAt(0);
+        char y = position.charAt(1);
+        if ((x >= 97 && x <= 122)
+                && (y >= 49 && y <= 56)) {
             return true;
         } else return false;
 

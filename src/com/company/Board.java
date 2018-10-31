@@ -3,6 +3,7 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 class Board {
 
@@ -68,13 +69,13 @@ class Board {
         boolean check = false;
 
         for (ChessPiece piece : pieces) {
-            if (type.isInstance(piece) && piece.getColor().equals(color)) {
+            if (type.isInstance(piece) && piece.getColor().equals(color) ) {
 
                 //Remove piece / Check color
                 if (isPieceAtPosition(targetPosition)) {
                     ChessPiece other = atPosition(targetPosition);
                     if (other.getColor().equals(color)) {
-                        throw new IllegalChessMoveException();
+                        throw new IllegalChessMoveException("Same color");
                     } else {
                         pieces.remove(other);
                     }
@@ -98,20 +99,24 @@ class Board {
                         }
                         startPosition = x + "" + y;
                         if (isPieceAtPosition(startPosition)) {
-                            throw new IllegalChessMoveException();
+                            throw new IllegalChessMoveException("Another piece is in the way");
                         }
                     }
                 }
 
+                try {
+                    piece.move(targetPosition);
+                    check = true;
+                    break;
+                } catch (IllegalChessMoveException e) {
 
-                piece.move(targetPosition);
-                check = true;
-                break;
+                }
+
             }
         }
 
         if (!check) {
-            throw new IllegalChessMoveException();
+            throw new IllegalChessMoveException("No piece found");
         }
 
 
@@ -130,7 +135,7 @@ class Board {
 
         if (isPieceAtPosition(newPosition)) {
             if (atPosition(newPosition).getColor().equals(piece)) {
-                throw new IllegalChessMoveException();
+                throw new IllegalChessMoveException("Same color");
             } else {
                 //Dunno
                 piece = null;

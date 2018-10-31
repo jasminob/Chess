@@ -16,7 +16,7 @@ class King extends ChessPiece {
         int y = Math.abs(this.getPosition().charAt(1) - newPosition.charAt(1));
 
         if (!(x == 1 && y == 1) && !(x == 0 && y == 1) && !(x == 1 && y == 0)) {
-            throw new IllegalChessMoveException();
+            throw new IllegalChessMoveException("Illegal King movement");
         } else {
             super.move(newPosition);
         }

@@ -16,7 +16,7 @@ class Knight extends ChessPiece {
         int y = Math.abs(this.getPosition().charAt(1) - newPosition.charAt(1));
 
         if (!(x == 2 && y == 1) && !(x == 1 && y == 2)) {
-            throw new IllegalChessMoveException();
+            throw new IllegalChessMoveException("Illegal Knight movement");
         } else {
             super.move(newPosition);
         }

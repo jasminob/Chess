@@ -12,15 +12,11 @@ public class Main {
         System.out.println(board.toString());
 
 
-        board.move(Pawn.class, ChessPiece.Color.White, "a3");
-        board.move(Pawn.class, ChessPiece.Color.White, "a4");
-        board.move(Pawn.class, ChessPiece.Color.White, "a5");
-        board.move(Pawn.class, ChessPiece.Color.White, "a6");
-        board.move(Pawn.class, ChessPiece.Color.White, "a7");
+        board.move(Pawn.class, ChessPiece.Color.White, "g3");
         System.out.println(board.toString());
 
-
-
+        board.move(Bishop.class, ChessPiece.Color.White, "g4");
+        System.out.println(board.toString());
 
 
     }
