@@ -70,52 +70,10 @@ class Board {
         boolean check = false;
         for (ChessPiece piece : pieces) {
             if (type.isInstance(piece) && piece.getColor().equals(color)) {
-                //Remove piece / Check color
-                if (isPieceAtPosition(targetPosition)) {
-                    ChessPiece other = atPosition(targetPosition);
-                    if (other.getColor().equals(color)) {
-                        throw new IllegalChessMoveException("Same color");
-                    } else {
-                        pieces.remove(other);
-                    }
-                }
-                // Obs
-                if (type.isInstance(Rook.class) || type.isInstance(Queen.class) || type.isInstance(Bishop.class)
-                        || type.isInstance(Pawn.class)) {
-
-                    String startPosition = targetPosition;
-                    char x = startPosition.charAt(0);
-                    char y = startPosition.charAt(1);
-
-                    while (!startPosition.equals(targetPosition)) {
-                        if (x < targetPosition.charAt(0) - 1) {
-                            x++;
-                        }
-                        if (y < targetPosition.charAt(1) - 1) {
-                            y++;
-                        }
-                        startPosition = x + "" + y;
-                        if (isPieceAtPosition(startPosition)) {
-                            throw new IllegalChessMoveException("Another piece is in the way");
-                        }
-                    }
-                }
-
-                //Samo da mi izbjegne exception vezan za Piece.move jer gleda jednu po jednu figuru iste klase,
-                //ako tipa hocu pawn dapomjerim na C3, on dodje i vidi 'Aha, prvi Pawn tj. onaj na A2 ne moze na C3'
-                // i izbaci exception
-                try {
-                    piece.move(targetPosition);
-                    check = true;
-                    break;
-                } catch (IllegalChessMoveException e) {
-
-                }
+                move(piece.getPosition(),  targetPosition);
             }
         }
-        if (!check) {
-            throw new IllegalChessMoveException("No piece found");
-        }
+
 
     }
 
@@ -126,10 +84,57 @@ class Board {
             throw new IllegalArgumentException("oldPosition");
         }
 
-        ChessPiece chesspiece = atPosition(oldPosition);
-        move(chesspiece.getClass(), chesspiece.getColor(), newPosition);
+        ChessPiece piece = atPosition(oldPosition);
+        boolean check = false;
 
+            //Check color / Remove piece
+            if (isPieceAtPosition(newPosition)) {
+                ChessPiece other = atPosition(newPosition);
+
+                if (other.getColor().equals(piece.getColor())) {
+                    throw new IllegalChessMoveException("Same color");
+                } else {
+                    pieces.remove(other);
+                }
+            }
+
+            // Obstacle
+            if (piece.getClass() == Rook.class || piece.getClass() == Pawn.class
+                    || piece.getClass() == Bishop.class || piece.getClass() == Queen.class) {
+
+                String startPosition = newPosition;
+                char x = startPosition.charAt(0);
+                char y = startPosition.charAt(1);
+
+                while (!startPosition.equals(newPosition)) {
+                    if (x < newPosition.charAt(0) - 1) {
+                        x++;
+                    }
+                    if (y < newPosition.charAt(1) - 1) {
+                        y++;
+                    }
+                    startPosition = x + "" + y;
+                    if (isPieceAtPosition(oldPosition)) {
+                        throw new IllegalChessMoveException("Another piece is in the way");
+                    }
+                }
+            }
+                piece.move(newPosition);
+                check = true;
+
+
+        if(!check)
+
+        {
+            throw new IllegalChessMoveException("No piece found");
+        }
     }
+
+
+
+
+
+
 
 
     //boolean isCheck(ChessPiece.Color color) { }
