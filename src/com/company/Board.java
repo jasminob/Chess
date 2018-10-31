@@ -81,7 +81,7 @@ class Board {
         }
 
 
-
+//I know, prvo pomjerim onda gledam da li je na toj poziciji na kojoj sam ga pomjerio ista boja
         if (isPieceAtPosition(position)) {
             ChessPiece piece = atPosition(position);
             if (piece.getColor().equals(color)) {
@@ -95,7 +95,7 @@ class Board {
 
         if (type.isInstance(Rook.class) || type.isInstance(Queen.class) || type.isInstance(Bishop.class)
                 || type.isInstance(Pawn.class)) {
-//Dunno
+        //Dunno
             String startPosition = piece.getPosition();
             char x = startPosition.charAt(0);
             char y = startPosition.charAt(1);
