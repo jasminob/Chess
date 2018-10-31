@@ -6,7 +6,6 @@ import java.util.List;
 
 class Board {
 
-    ChessPiece piece;
     List<ChessPiece> pieces = new ArrayList<>();
 
 
@@ -66,23 +65,93 @@ class Board {
 
     public void move(Class type, ChessPiece.Color color, String position) throws Exception {
 
+        boolean check = false;
+
         for (ChessPiece piece : pieces) {
+            if (type.isInstance(piece) && piece.getColor().equals(color)) {
 
+                piece.move(position);
+                check = true;
+                break;
+            }
+        }
 
+        if (!check) {
+            throw new IllegalChessMoveException();
         }
 
 
+//I know, prvo pomjerim onda gledam da li je na toj poziciji na kojoj sam ga pomjerio ista boja
+        if (isPieceAtPosition(position)) {
+            ChessPiece piece = atPosition(position);
+            if (piece.getColor().equals(color)) {
+                throw new IllegalChessMoveException();
+            } else {
+                //Dunno
+                piece = null;
+            }
+
+        }
+
+        if (type.isInstance(Rook.class) || type.isInstance(Queen.class) || type.isInstance(Bishop.class)
+                || type.isInstance(Pawn.class)) {
+        //Dunno
+            String startPosition = piece.getPosition();
+            char x = startPosition.charAt(0);
+            char y = startPosition.charAt(1);
+
+            while (!startPosition.equals(position)) {
+                if (x < position.charAt(0) - 1) {
+                    x++;
+                }
+                if (y < position.charAt(1) - 1) {
+                    y++;
+                }
+                startPosition = x + y + "";
+                if (isPieceAtPosition(startPosition)) {
+                    throw new IllegalChessMoveException();
+                }
+            }
+        }
+
     }
 
-    public void move(String oldPosition, String newPosition) {
+    public void move(String oldPosition, String newPosition) throws Exception {
 
+        ChessPiece piece = atPosition(oldPosition);
+
+        if (!isPieceAtPosition(oldPosition)) {
+            throw new IllegalArgumentException("oldPosition");
+        } else {
+            piece.move(newPosition);
+        }
+
+
+        if (isPieceAtPosition(newPosition)) {
+            if (atPosition(newPosition).getColor().equals(piece)) {
+                throw new IllegalChessMoveException();
+            } else {
+                //Dunno
+                piece = null;
+            }
+        }
     }
 
     //boolean isCheck(ChessPiece.Color color) { }
 
+    public boolean isPieceAtPosition(String position) {
+        position.toLowerCase();
+        for (ChessPiece piece : pieces) {
+            if (piece.getPosition().equals(position)) {
+                return true;
+            }
+        }
+        return false;
+
+    }
 
     public ChessPiece atPosition(String position) {
-
+        position.toLowerCase();
         for (ChessPiece piece : pieces) {
             if (piece.getPosition().equals(position)) {
                 return piece;
@@ -90,6 +159,7 @@ class Board {
         }
         return null;
     }
+
 
     @Override
     public String toString() {
@@ -103,7 +173,7 @@ class Board {
                 position = "" + c + i;
 
                 ChessPiece atPosition = atPosition(position);
-                if ( atPosition != null) {
+                if (atPosition != null) {
                     result += atPosition.toString() + " ";
                 } else {
                     result += "- ";
