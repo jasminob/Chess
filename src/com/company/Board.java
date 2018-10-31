@@ -66,12 +66,9 @@ class Board {
 
     public void move(Class type, ChessPiece.Color color, String targetPosition) throws Exception {
 
-
-
-
         boolean check = false;
         for (ChessPiece piece : pieces) {
-            if (type.isInstance(piece) && piece.getColor().equals(color) ) {
+            if (type.isInstance(piece) && piece.getColor().equals(color)) {
                 //Remove piece / Check color
                 if (isPieceAtPosition(targetPosition)) {
                     ChessPiece other = atPosition(targetPosition);
@@ -102,6 +99,10 @@ class Board {
                         }
                     }
                 }
+
+                //Samo da mi izbjegne exception vezan za Piece.move jer gleda jednu po jednu figuru iste klase,
+                //ako tipa hocu pawn dapomjerim na C3, on dodje i vidi 'Aha, prvi Pawn tj. onaj na A2 ne moze na C3'
+                // i izbaci exception
                 try {
                     piece.move(targetPosition);
                     check = true;
@@ -109,12 +110,13 @@ class Board {
                 } catch (IllegalChessMoveException e) {
 
                 }
+
+
             }
         }
         if (!check) {
             throw new IllegalChessMoveException("No piece found");
         }
-
 
 
     }
