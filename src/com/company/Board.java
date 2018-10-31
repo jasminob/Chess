@@ -81,13 +81,13 @@ class Board {
         }
 
 
-        if (isPieceAtPosition(position)) {
 
+        if (isPieceAtPosition(position)) {
             ChessPiece piece = atPosition(position);
             if (piece.getColor().equals(color)) {
                 throw new IllegalChessMoveException();
             } else {
-                //Dunno for loop?
+                //Dunno
                 piece = null;
             }
 
@@ -95,7 +95,7 @@ class Board {
 
         if (type.isInstance(Rook.class) || type.isInstance(Queen.class) || type.isInstance(Bishop.class)
                 || type.isInstance(Pawn.class)) {
-
+//Dunno
             String startPosition = piece.getPosition();
             char x = startPosition.charAt(0);
             char y = startPosition.charAt(1);
@@ -131,7 +131,7 @@ class Board {
             if (atPosition(newPosition).getColor().equals(piece)) {
                 throw new IllegalChessMoveException();
             } else {
-                //Dunno for loop?
+                //Dunno
                 piece = null;
             }
         }
