@@ -9,9 +9,13 @@ class Pawn extends ChessPiece {
         super(position, color);
     }
 
+    public Pawn(){
+
+    }
     @Override
     public void move(String newPosition) throws Exception {
 
+newPosition.toLowerCase();
         int x = Math.abs(this.getPosition().charAt(0) - newPosition.charAt(0));
         int y = Math.abs(this.getPosition().charAt(1) - newPosition.charAt(1));
 
@@ -24,7 +28,10 @@ class Pawn extends ChessPiece {
 
     @Override
     public String toString() {
-        return "P";
+        if(this.getColor().equals(Color.White)) {
+            return "WP";
+        }
+        return "BP";
     }
 
 

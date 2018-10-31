@@ -7,11 +7,23 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Board board = new Board();
         System.out.println(board.toString());
 
-        Scanner input = new Scanner(System.in);
+
+        board.move(Pawn.class, ChessPiece.Color.White, "a3");
+        board.move(Pawn.class, ChessPiece.Color.White, "a4");
+        board.move(Pawn.class, ChessPiece.Color.White, "a5");
+        board.move(Pawn.class, ChessPiece.Color.White, "a6");
+        board.move(Pawn.class, ChessPiece.Color.White, "a7");
+        board.move(Pawn.class, ChessPiece.Color.White, "a8");
+        System.out.println(board.toString());
+
+
+
+
+
     }
 }
 
