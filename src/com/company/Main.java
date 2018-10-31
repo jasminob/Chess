@@ -15,15 +15,10 @@ public class Main {
 
 
         board.move("b8", "a6");
+        board.move("a2", "a3");
+
+        board.move(Pawn.class, ChessPiece.Color.White, "A3");
         System.out.println(board.toString());
-
-        board.move("a6", "c5");
-        System.out.println(board.toString());
-
-        board.move("c5", "d3");
-        System.out.println(board.toString());
-
-
     }
 }
 
