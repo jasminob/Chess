@@ -29,9 +29,9 @@ newPosition.toLowerCase();
     @Override
     public String toString() {
         if(this.getColor().equals(Color.White)) {
-            return "WP";
+            return "P";
         }
-        return "BP";
+        return "P";
     }
 
 
