@@ -16,7 +16,7 @@ class Bishop extends ChessPiece {
         int y = Math.abs(this.getPosition().charAt(1) - newPosition.charAt(1));
 
         if (x != y) {
-            throw new IllegalChessMoveException();
+            throw new IllegalChessMoveException("Illegal Bishop movement");
         } else {
             super.move(newPosition);
         }

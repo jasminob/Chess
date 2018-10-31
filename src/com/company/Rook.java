@@ -17,7 +17,7 @@ class Rook extends ChessPiece {
         int y = Math.abs(this.getPosition().charAt(1) - newPosition.charAt(1));
 
         if (!(x == 0 && y > 0) && !(x > 0 && y == 0)) {
-            throw new IllegalChessMoveException();
+            throw new IllegalChessMoveException("Illegal Rook movement");
         } else {
             super.move(newPosition);
         }

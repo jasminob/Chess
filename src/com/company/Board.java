@@ -3,6 +3,7 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 class Board {
 
@@ -63,78 +64,80 @@ class Board {
 
     }
 
-    public void move(Class type, ChessPiece.Color color, String position) throws Exception {
+    public void move(Class type, ChessPiece.Color color, String targetPosition) throws Exception {
+
+
+
 
         boolean check = false;
-
         for (ChessPiece piece : pieces) {
-            if (type.isInstance(piece) && piece.getColor().equals(color)) {
+            if (type.isInstance(piece) && piece.getColor().equals(color) ) {
+                //Remove piece / Check color
+                if (isPieceAtPosition(targetPosition)) {
+                    ChessPiece other = atPosition(targetPosition);
+                    if (other.getColor().equals(color)) {
+                        throw new IllegalChessMoveException("Same color");
+                    } else {
+                        pieces.remove(other);
+                    }
+                }
+                // Obs
+                if (type.isInstance(Rook.class) || type.isInstance(Queen.class) || type.isInstance(Bishop.class)
+                        || type.isInstance(Pawn.class)) {
 
-                piece.move(position);
-                check = true;
-                break;
+                    String startPosition = targetPosition;
+                    char x = startPosition.charAt(0);
+                    char y = startPosition.charAt(1);
+
+                    while (!startPosition.equals(targetPosition)) {
+                        if (x < targetPosition.charAt(0) - 1) {
+                            x++;
+                        }
+                        if (y < targetPosition.charAt(1) - 1) {
+                            y++;
+                        }
+                        startPosition = x + "" + y;
+                        if (isPieceAtPosition(startPosition)) {
+                            throw new IllegalChessMoveException("Another piece is in the way");
+                        }
+                    }
+                }
+                try {
+                    piece.move(targetPosition);
+                    check = true;
+                    break;
+                } catch (IllegalChessMoveException e) {
+
+                }
             }
         }
-
         if (!check) {
-            throw new IllegalChessMoveException();
+            throw new IllegalChessMoveException("No piece found");
         }
 
 
-//I know, prvo pomjerim onda gledam da li je na toj poziciji na kojoj sam ga pomjerio ista boja
-        if (isPieceAtPosition(position)) {
-            ChessPiece piece = atPosition(position);
-            if (piece.getColor().equals(color)) {
-                throw new IllegalChessMoveException();
-            } else {
-                //Dunno
-                piece = null;
-            }
-
-        }
-
-        if (type.isInstance(Rook.class) || type.isInstance(Queen.class) || type.isInstance(Bishop.class)
-                || type.isInstance(Pawn.class)) {
-            //Dunno
-            String startPosition = piece.getPosition();
-            char x = startPosition.charAt(0);
-            char y = startPosition.charAt(1);
-
-            while (!startPosition.equals(position)) {
-                if (x < position.charAt(0) - 1) {
-                    x++;
-                }
-                if (y < position.charAt(1) - 1) {
-                    y++;
-                }
-                startPosition = x + "" + y;
-                if (isPieceAtPosition(startPosition)) {
-                    throw new IllegalChessMoveException();
-                }
-            }
-        }
 
     }
 
     public void move(String oldPosition, String newPosition) throws Exception {
 
-        ChessPiece piece = atPosition(oldPosition);
+        ChessPiece piec3 = atPosition(oldPosition);
 
         if (!isPieceAtPosition(oldPosition)) {
             throw new IllegalArgumentException("oldPosition");
         } else {
-            piece.move(newPosition);
+            piec3.move(newPosition);
         }
 
 
         if (isPieceAtPosition(newPosition)) {
-            if (atPosition(newPosition).getColor().equals(piece)) {
-                throw new IllegalChessMoveException();
+            if (atPosition(newPosition).getColor().equals(piec3)) {
+                throw new IllegalChessMoveException("Same color");
             } else {
-                //Dunno
-                piece = null;
+                pieces.remove(piec3);
             }
         }
+
     }
 
     //boolean isCheck(ChessPiece.Color color) { }

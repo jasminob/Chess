@@ -2,7 +2,8 @@ package com.company;
 
 
 public class IllegalChessMoveException extends Exception {
-    IllegalChessMoveException() {
+    IllegalChessMoveException(String s) {
+        super(s);
     }
 }
 
