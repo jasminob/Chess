@@ -63,14 +63,48 @@ class Board {
 
     }
 
-    public void move(Class type, ChessPiece.Color color, String position) throws Exception {
+    public void move(Class type, ChessPiece.Color color, String targetPosition) throws Exception {
 
         boolean check = false;
 
         for (ChessPiece piece : pieces) {
             if (type.isInstance(piece) && piece.getColor().equals(color)) {
 
-                piece.move(position);
+                //Remove piece / Check color
+                if (isPieceAtPosition(targetPosition)) {
+                    ChessPiece other = atPosition(targetPosition);
+                    if (other.getColor().equals(color)) {
+                        throw new IllegalChessMoveException();
+                    } else {
+                        pieces.remove(other);
+                    }
+                }
+
+
+                // Obs
+                if (type.isInstance(Rook.class) || type.isInstance(Queen.class) || type.isInstance(Bishop.class)
+                        || type.isInstance(Pawn.class)) {
+
+                    String startPosition = targetPosition;
+                    char x = startPosition.charAt(0);
+                    char y = startPosition.charAt(1);
+
+                    while (!startPosition.equals(targetPosition)) {
+                        if (x < targetPosition.charAt(0) - 1) {
+                            x++;
+                        }
+                        if (y < targetPosition.charAt(1) - 1) {
+                            y++;
+                        }
+                        startPosition = x + "" + y;
+                        if (isPieceAtPosition(startPosition)) {
+                            throw new IllegalChessMoveException();
+                        }
+                    }
+                }
+
+
+                piece.move(targetPosition);
                 check = true;
                 break;
             }
@@ -80,39 +114,6 @@ class Board {
             throw new IllegalChessMoveException();
         }
 
-
-//I know, prvo pomjerim onda gledam da li je na toj poziciji na kojoj sam ga pomjerio ista boja
-        if (isPieceAtPosition(position)) {
-            ChessPiece piece = atPosition(position);
-            if (piece.getColor().equals(color)) {
-                throw new IllegalChessMoveException();
-            } else {
-                //Dunno
-                piece = null;
-            }
-
-        }
-
-        if (type.isInstance(Rook.class) || type.isInstance(Queen.class) || type.isInstance(Bishop.class)
-                || type.isInstance(Pawn.class)) {
-            //Dunno
-            String startPosition = piece.getPosition();
-            char x = startPosition.charAt(0);
-            char y = startPosition.charAt(1);
-
-            while (!startPosition.equals(position)) {
-                if (x < position.charAt(0) - 1) {
-                    x++;
-                }
-                if (y < position.charAt(1) - 1) {
-                    y++;
-                }
-                startPosition = x + "" + y;
-                if (isPieceAtPosition(startPosition)) {
-                    throw new IllegalChessMoveException();
-                }
-            }
-        }
 
     }
 
