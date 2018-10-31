@@ -43,14 +43,13 @@ abstract class ChessPiece {
             throw new Exception("Format nije dure");
         }
 
-        return true;
-        /*
+
         position.toLowerCase();
         if ((position.charAt(0) >= 'a' && position.charAt(0) <= 'z')
                 && (position.charAt(1) >= 1 && position.charAt(1) <= 8)) {
             return true;
         } else return false;
-         */
+
     }
 
 
