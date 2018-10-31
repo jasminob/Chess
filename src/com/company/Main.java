@@ -17,7 +17,6 @@ public class Main {
         board.move(Pawn.class, ChessPiece.Color.White, "a5");
         board.move(Pawn.class, ChessPiece.Color.White, "a6");
         board.move(Pawn.class, ChessPiece.Color.White, "a7");
-        board.move(Pawn.class, ChessPiece.Color.White, "a8");
         System.out.println(board.toString());
 
 

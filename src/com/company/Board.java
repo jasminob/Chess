@@ -70,6 +70,15 @@ class Board {
         for (ChessPiece piece : pieces) {
             if (type.isInstance(piece) && piece.getColor().equals(color)) {
 
+                if (isPieceAtPosition(position)) {
+                    for (ChessPiece piece1 : pieces) {
+                        if (piece1.getColor().equals(color)) {
+                            throw new IllegalChessMoveException();
+                        } else {
+                            piece1 = null;
+                        }
+                    }
+                }
 
                 piece.move(position);
                 check = true;
@@ -79,17 +88,6 @@ class Board {
 
         if (!check) {
             throw new IllegalChessMoveException();
-        }
-
-
-        if (isPieceAtPosition(position)) {
-            for (ChessPiece piece1 : pieces) {
-                if (piece1.getColor().equals(color)) {
-                    throw new IllegalChessMoveException();
-                } else {
-                    piece1 = null;
-                }
-            }
         }
 
 
