@@ -66,10 +66,10 @@ class Board {
 
     public void move(Class type, ChessPiece.Color color, String targetPosition) throws Exception {
 
+
         boolean check = false;
         for (ChessPiece piece : pieces) {
-            if (type.isInstance(piece) && piece.getColor().equals(color)) {
-                //Remove piece / Check color
+            if (type.isInstance(piece) && piece.getColor().equals(color)) {                //Remove piece / Check color
                 if (isPieceAtPosition(targetPosition)) {
                     ChessPiece other = atPosition(targetPosition);
                     if (other.getColor().equals(color)) {
@@ -110,37 +110,26 @@ class Board {
                 } catch (IllegalChessMoveException e) {
 
                 }
-
-
             }
         }
         if (!check) {
             throw new IllegalChessMoveException("No piece found");
         }
 
-
     }
 
     public void move(String oldPosition, String newPosition) throws Exception {
 
-        ChessPiece piec3 = atPosition(oldPosition);
-
+        //Check if there is a piece at the old position
         if (!isPieceAtPosition(oldPosition)) {
             throw new IllegalArgumentException("oldPosition");
-        } else {
-            piec3.move(newPosition);
         }
 
-
-        if (isPieceAtPosition(newPosition)) {
-            if (atPosition(newPosition).getColor().equals(piec3)) {
-                throw new IllegalChessMoveException("Same color");
-            } else {
-                pieces.remove(piec3);
-            }
-        }
+        ChessPiece chesspiece = atPosition(oldPosition);
+        move(chesspiece.getClass(), chesspiece.getColor(), newPosition);
 
     }
+
 
     //boolean isCheck(ChessPiece.Color color) { }
 

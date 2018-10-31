@@ -18,6 +18,9 @@ public class Main {
         board.move(Knight.class, ChessPiece.Color.White, "g5");
         System.out.println(board.toString());
 
+        board.move("b8", "a6");
+        System.out.println(board.toString());
+
 
     }
 }
