@@ -66,8 +66,6 @@ class Board {
 
     public void move(Class type, ChessPiece.Color color, String targetPosition) throws Exception {
 
-
-        boolean check = false;
         for (ChessPiece piece : pieces) {
             if (type.isInstance(piece) && piece.getColor().equals(color)) {
                 move(piece.getPosition(), targetPosition);
@@ -98,8 +96,8 @@ class Board {
             }
         }
 
-        // Obstacle
-        if (piece.getClass() == Rook.class || piece.getClass() == Pawn.class
+        //Obstacle
+        if (piece.getClass() == Rook.class
                 || piece.getClass() == Bishop.class || piece.getClass() == Queen.class) {
 
             String startPosition = piece.getPosition();
@@ -117,8 +115,10 @@ class Board {
                 if (isPieceAtPosition(oldPosition)) {
                     throw new IllegalChessMoveException("Another piece is in the way");
                 }
+
             }
         }
+
         piece.move(newPosition);
         check = true;
 
@@ -126,6 +126,8 @@ class Board {
         if (!check) {
             throw new IllegalChessMoveException("No piece found");
         }
+
+
     }
 
     public boolean isCheck(ChessPiece.Color color) throws Exception {
@@ -149,7 +151,7 @@ class Board {
                         return true;
                     }
                 } catch (IllegalChessMoveException e) {
-                    System.out.println("Could not move " + piece.toString());
+
                 }
             }
         }
@@ -162,7 +164,7 @@ class Board {
         if (isCheck(ChessPiece.Color.White)) {
             System.out.println("Check, White");
         } else if (isCheck(ChessPiece.Color.Black)) {
-                System.out.println("Check, Black");
+            System.out.println("Check, Black");
         }
 
     }

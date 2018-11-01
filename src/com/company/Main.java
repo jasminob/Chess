@@ -11,8 +11,6 @@ public class Main {
         Board board = new Board();
         System.out.println(board.toString());
 
-
-
         board.check();
         System.out.println(board.toString());
     }
