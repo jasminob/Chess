@@ -11,8 +11,14 @@ public class Main {
         Board board = new Board();
         System.out.println(board.toString());
 
+
+
+    board.move("H8", "H6");
+
         board.check();
+
         System.out.println(board.toString());
+
     }
 }
 

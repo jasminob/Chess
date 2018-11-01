@@ -13,11 +13,11 @@ class BoardTest {
         boolean no = b.isCheck(ChessPiece.Color.White);
         assertDoesNotThrow(
                 () -> {
-                    b.move(Pawn.class, ChessPiece.Color.White, "E4");
-                    b.move(Bishop.class, ChessPiece.Color.White, "A6");
-                    b.move(Knight.class, ChessPiece.Color.White, "C3");
-                    b.move(King.class, ChessPiece.Color.White, "E2");
-                    b.move(King.class, ChessPiece.Color.White, "E3");
+
+                    b.move("E2", "E3");
+                    b.move("E3", "E4");
+                    b.move("E4", "E5");
+                    b.move("E5", "E6");
                 }
         );
     }
@@ -28,11 +28,12 @@ class BoardTest {
         Board b = new Board();
         assertDoesNotThrow(
                 () -> {
-                    b.move(Pawn.class, ChessPiece.Color.White, "E4");
-                    b.move(Pawn.class, ChessPiece.Color.White, "E5");
-                    b.move(Pawn.class, ChessPiece.Color.White, "E6");
-                    b.move(Pawn.class, ChessPiece.Color.White, "D7");
-                    b.move(Pawn.class, ChessPiece.Color.White, "C8");
+                    b.move("E2", "E3");
+                    b.move("E3", "E4");
+                    b.move("E4", "E5");
+                    b.move("E5", "E6");
+                    b.move("E6", "F7");
+                    b.move("F7", "G8");
                 }
         );
     }
@@ -47,14 +48,11 @@ class BoardTest {
             b.move("E3", "E4");
             b.move("E4", "E5");
             b.move("E5", "E6");
-            b.move("E6", "E7");
+            b.move("E6", "F7");
+            b.move("F7", "G8");
+            b.move("D1", "E2");
+            b.move("E2", "E7");
 
-        /*    b.move(Pawn.class, ChessPiece.Color.White, "E3");
-            b.move(Pawn.class, ChessPiece.Color.White, "E4");
-            b.move(Pawn.class, ChessPiece.Color.White, "E5");
-            b.move(Pawn.class, ChessPiece.Color.White, "E6");
-            b.move(Pawn.class, ChessPiece.Color.White, "E7");
-            */
 
         } catch(Exception e) {
             // Do nothing
@@ -68,14 +66,16 @@ class BoardTest {
     void isCheckUsable() throws Exception {
         Board b = new Board();
         try {
-            b.move(Pawn.class, ChessPiece.Color.White, "E3");
 
-            b.move(Pawn.class, ChessPiece.Color.White, "E4");
-            b.move(Pawn.class, ChessPiece.Color.White, "E5");
-            b.move(Pawn.class, ChessPiece.Color.White, "E6");
-            b.move(Pawn.class, ChessPiece.Color.White, "D7");
-            b.move(Pawn.class, ChessPiece.Color.White, "C8");
-            b.move(Queen.class, ChessPiece.Color.White, "E2");
+
+            b.move("E2", "E3");
+            b.move("E3", "E4");
+            b.move("E4", "E5");
+            b.move("E5", "E6");
+            b.move("E6", "D7");
+            b.move("D7", "C8");
+            b.move("D1", "E2");
+
         } catch(Exception e) {
             // Do nothing
         }
@@ -117,11 +117,10 @@ class BoardTest {
         boolean no = b.isCheck(ChessPiece.Color.White);
         assertDoesNotThrow(
                 () -> {
-                    b.move("E2", "E4");
-                    b.move("F1", "A6");
-                    b.move("B1", "C3");
-                    b.move("E1", "E2");
                     b.move("E2", "E3");
+                    b.move("E3", "E4");
+
+
                 }
         );
     }
@@ -132,7 +131,8 @@ class BoardTest {
         Board b = new Board();
         assertDoesNotThrow(
                 () -> {
-                    b.move("E2", "E4");
+                    b.move("E2", "E3");
+                    b.move("E3", "E4");
                     b.move("E4", "E5");
                     b.move("E5", "E6");
                     b.move("E6", "D7");
@@ -146,7 +146,8 @@ class BoardTest {
     void isCheck1() throws Exception {
         Board b = new Board();
         try {
-            b.move("E2", "E4");
+            b.move("E2", "E3");
+            b.move("E3", "E4");
             b.move("E4", "E5");
             b.move("E5", "E6");
             b.move("E6", "D7");
@@ -183,12 +184,14 @@ class BoardTest {
     void isCheckUsable1() throws Exception {
         Board b = new Board();
         try {
-            b.move("E2", "E4");
+            b.move("E2", "E3");
+            b.move("E3", "E4");
             b.move("E4", "E5");
             b.move("E5", "E6");
             b.move("E6", "D7");
             b.move("D7", "C8");
             b.move("D1", "E2");
+
         } catch(Exception e) {
             // Do nothing
         }

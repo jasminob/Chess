@@ -23,7 +23,7 @@ class Board {
         pieces.add(new Knight("B1", ChessPiece.Color.White));
         pieces.add(new Knight("G1", ChessPiece.Color.White));
 
-        pieces.add(new Knight("D3", ChessPiece.Color.Black));
+        pieces.add(new Knight("B8", ChessPiece.Color.Black));
         pieces.add(new Knight("G8", ChessPiece.Color.Black));
 
         //Bishop
@@ -68,7 +68,11 @@ class Board {
 
         for (ChessPiece piece : pieces) {
             if (type.isInstance(piece) && piece.getColor().equals(color)) {
-                move(piece.getPosition(), targetPosition);
+
+                String oldPosition = piece.getPosition();
+                move(oldPosition, targetPosition);
+                break;
+
             }
         }
 
@@ -85,6 +89,57 @@ class Board {
         ChessPiece piece = atPosition(oldPosition);
         boolean check = false;
 
+
+        //Obstacle
+        if (piece.getClass() == Rook.class
+                || piece.getClass() == Bishop.class || piece.getClass() == Queen.class) {
+
+            String startPosition = piece.getPosition();
+            char x = Character.toUpperCase(startPosition.charAt(0));
+            char y = startPosition.charAt(1);
+
+            char sX  = x;
+            char sY = y;
+
+            char newPosX = newPosition.charAt(0);
+            char newPosY = newPosition.charAt(1);
+
+            boolean directionX = true;
+            boolean directionY = true;
+
+            if(x > newPosX){
+                directionX = false;
+            }
+
+            if(y > newPosY){
+                directionY = false;
+            }
+
+
+            while (!(startPosition.charAt(0) == newPosX) && !(startPosition.charAt(1) == newPosY)) {
+                if (directionX && (x < newPosX - 1 || (sX == x && sX != newPosX))) {
+                    x++;
+                }
+                else if(!directionX && x > newPosX - 1 ||   ((sX == x && sX != newPosX))){
+                    x--;
+                }
+
+                if (directionY && (y < newPosY - 1 || (sY == y && sY != newPosY))) {
+                    y++;
+                }
+                else if( !directionY && y > newPosY - 1 || (sY == y && sY != newPosY))
+                {
+                    y--;
+                }
+                startPosition = x + "" + y;
+                if (isPieceAtPosition(startPosition)) {
+                    throw new IllegalChessMoveException("Another piece is in the way");
+                }
+
+            }
+        }
+
+
         //Check color / Remove piece
         if (isPieceAtPosition(newPosition)) {
             ChessPiece other = atPosition(newPosition);
@@ -93,33 +148,14 @@ class Board {
                 throw new IllegalChessMoveException("Same color");
             } else {
                 pieces.remove(other);
+                if(piece.getClass() == Pawn.class){
+
+                    ((Pawn) piece).moveIt(newPosition);
+                } else piece.move(newPosition);
             }
-        }
+        } else piece.move(newPosition);
 
-        //Obstacle
-        if (piece.getClass() == Rook.class
-                || piece.getClass() == Bishop.class || piece.getClass() == Queen.class) {
 
-            String startPosition = piece.getPosition();
-            char x = startPosition.charAt(0);
-            char y = startPosition.charAt(1);
-
-            while (!startPosition.equals(newPosition)) {
-                if (x < newPosition.charAt(0) - 1) {
-                    x++;
-                }
-                if (y < newPosition.charAt(1) - 1) {
-                    y++;
-                }
-                startPosition = x + "" + y;
-                if (isPieceAtPosition(oldPosition)) {
-                    throw new IllegalChessMoveException("Another piece is in the way");
-                }
-
-            }
-        }
-
-        piece.move(newPosition);
         check = true;
 
 
