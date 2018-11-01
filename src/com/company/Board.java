@@ -23,7 +23,7 @@ class Board {
         pieces.add(new Knight("B1", ChessPiece.Color.White));
         pieces.add(new Knight("G1", ChessPiece.Color.White));
 
-        pieces.add(new Knight("B8", ChessPiece.Color.Black));
+        pieces.add(new Knight("D3", ChessPiece.Color.Black));
         pieces.add(new Knight("G8", ChessPiece.Color.Black));
 
         //Bishop
@@ -70,7 +70,7 @@ class Board {
         boolean check = false;
         for (ChessPiece piece : pieces) {
             if (type.isInstance(piece) && piece.getColor().equals(color)) {
-                move(piece.getPosition(),  targetPosition);
+                move(piece.getPosition(), targetPosition);
             }
         }
 
@@ -87,62 +87,89 @@ class Board {
         ChessPiece piece = atPosition(oldPosition);
         boolean check = false;
 
-            //Check color / Remove piece
-            if (isPieceAtPosition(newPosition)) {
-                ChessPiece other = atPosition(newPosition);
+        //Check color / Remove piece
+        if (isPieceAtPosition(newPosition)) {
+            ChessPiece other = atPosition(newPosition);
 
-                if (other.getColor().equals(piece.getColor())) {
-                    throw new IllegalChessMoveException("Same color");
-                } else {
-                    pieces.remove(other);
+            if (other.getColor().equals(piece.getColor())) {
+                throw new IllegalChessMoveException("Same color");
+            } else {
+                pieces.remove(other);
+            }
+        }
+
+        // Obstacle
+        if (piece.getClass() == Rook.class || piece.getClass() == Pawn.class
+                || piece.getClass() == Bishop.class || piece.getClass() == Queen.class) {
+
+            String startPosition = piece.getPosition();
+            char x = startPosition.charAt(0);
+            char y = startPosition.charAt(1);
+
+            while (!startPosition.equals(newPosition)) {
+                if (x < newPosition.charAt(0) - 1) {
+                    x++;
+                }
+                if (y < newPosition.charAt(1) - 1) {
+                    y++;
+                }
+                startPosition = x + "" + y;
+                if (isPieceAtPosition(oldPosition)) {
+                    throw new IllegalChessMoveException("Another piece is in the way");
                 }
             }
-
-            // Obstacle
-            if (piece.getClass() == Rook.class || piece.getClass() == Pawn.class
-                    || piece.getClass() == Bishop.class || piece.getClass() == Queen.class) {
-
-                String startPosition = newPosition;
-                char x = startPosition.charAt(0);
-                char y = startPosition.charAt(1);
-
-                while (!startPosition.equals(newPosition)) {
-                    if (x < newPosition.charAt(0) - 1) {
-                        x++;
-                    }
-                    if (y < newPosition.charAt(1) - 1) {
-                        y++;
-                    }
-                    startPosition = x + "" + y;
-                    if (isPieceAtPosition(oldPosition)) {
-                        throw new IllegalChessMoveException("Another piece is in the way");
-                    }
-                }
-            }
-                piece.move(newPosition);
-                check = true;
+        }
+        piece.move(newPosition);
+        check = true;
 
 
-        if(!check)
-
-        {
+        if (!check) {
             throw new IllegalChessMoveException("No piece found");
         }
     }
 
+    public boolean isCheck(ChessPiece.Color color) throws Exception {
 
+        String kingPosition = "";
+        for (ChessPiece piece : pieces) {
 
+            //  if(piece.equals(King.Color.valueOf(color+""))){
+            if (King.class.isInstance(piece) && piece.getColor().equals(color)) {
+                kingPosition = piece.getPosition();
+            }
+        }
 
+        for (ChessPiece piece : pieces) {
+            if (!piece.getColor().equals(color)) {
+                String currentPiecePosition = piece.getPosition();
+                try {
+                    piece.move(kingPosition);
+                    if (currentPiecePosition != piece.getPosition()) {
+                        piece.move(currentPiecePosition);
+                        return true;
+                    }
+                } catch (IllegalChessMoveException e) {
+                    System.out.println("Could not move " + piece.toString());
+                }
+            }
+        }
 
+        return false;
+    }
 
+    public void check() throws Exception {
 
+        if (isCheck(ChessPiece.Color.White)) {
+            System.out.println("Check, White");
+        } else if (isCheck(ChessPiece.Color.Black)) {
+                System.out.println("Check, Black");
+        }
 
-    //boolean isCheck(ChessPiece.Color color) { }
+    }
 
     public boolean isPieceAtPosition(String position) {
-        position.toLowerCase();
         for (ChessPiece piece : pieces) {
-            if (piece.getPosition().equals(position)) {
+            if (piece.getPosition().equalsIgnoreCase(position)) {
                 return true;
             }
         }
@@ -151,9 +178,8 @@ class Board {
     }
 
     public ChessPiece atPosition(String position) {
-        position.toLowerCase();
         for (ChessPiece piece : pieces) {
-            if (piece.getPosition().equals(position)) {
+            if (piece.getPosition().equalsIgnoreCase(position)) {
                 return piece;
             }
         }

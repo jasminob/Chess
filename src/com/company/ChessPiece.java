@@ -42,7 +42,7 @@ abstract class ChessPiece {
             throw new Exception("Format nije dure");
         }
 
-       position.toLowerCase();
+       position = position.toLowerCase();
         char x = position.charAt(0);
         char y = position.charAt(1);
         if ((x >= 97 && x <= 122)
