@@ -13,7 +13,9 @@ public class Board implements Saveable{
 
     Stack<Chessturn> stackTurns = new Stack<>();
 
-
+    public List<ChessPiece> getPieces() {
+        return pieces;
+    }
 
     public Board(JsonObject saveData){
             JsonArray activePieces = saveData.getJsonArray("activePieces");

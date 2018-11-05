@@ -22,7 +22,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Main.primaryStage = primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("ui/board.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/ui/board.fxml"));
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
@@ -127,49 +127,7 @@ public class Main extends Application {
 
     public static void main(String[] args) throws Exception {
 
-        Board board = new Board();
-        Scanner in = new Scanner(System.in);
-        PrintStream out = System.out;
-        Scanner q = new Scanner(System.in);
-
-        while (true) {
-            System.out.println(board.toString() + "\n" +
-                    whoseTurn()  +
-                    "1. Save current state of the board\n" +
-                    "2. Load last saved board state\n" +
-                    "3. Next move\n" +
-                    "4. Undo Last Turn\n" +
-                    "5. Surrender \n" +
-                    "6. Undo \n" +
-                    "7. Exit\n"
-            );
-            int choice = q.nextInt();
-            q.nextLine();
-            switch (choice) {
-                case 1:
-                    saveBoard(board);
-                    break;
-                case 2:
-                    board = loadBoard();
-                    break;
-                case 3:
-                    move(board, out, in);
-                    break;
-                case 4:
-                    board = loadLastBoard();
-                    break;
-                case 5:
-                    surrender(out);
-                    break;
-                case 6:
-                    board.undoTurn();
-                    counter--;
-                    break;
-                case 7:
-                    return;
-            }
-        }
-
+        launch(args);
     }
 
 }
