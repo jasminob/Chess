@@ -1,5 +1,8 @@
 package com.company;
 
+import com.company.model.Bishop;
+import com.company.model.ChessPiece;
+import com.company.model.IllegalChessMoveException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

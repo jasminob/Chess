@@ -1,7 +1,7 @@
-package com.company;
+package com.company.model;
 
 
-class Chessturn{
+public class Chessturn{
     private ChessPiece.Color color;
     private String fromPos;
     private String toPos;
