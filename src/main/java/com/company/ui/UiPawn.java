@@ -6,8 +6,8 @@ import javafx.scene.image.ImageView;
 public class UiPawn extends UiChessPiece{
 
 
-    public UiPawn(ChessPiece piece) {
-        super(piece, new ImageView(UiChessPiece.getPathForPiece(piece)));
+    public UiPawn(ChessPiece piece, BoardController boardController) {
+        super(piece, new ImageView(UiChessPiece.getPathForPiece(piece)), boardController);
     }
 
 

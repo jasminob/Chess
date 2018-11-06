@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 
 public class UiRook extends UiChessPiece{
 
-    public UiRook(ChessPiece piece) {
-        super(piece, new ImageView(UiChessPiece.getPathForPiece(piece)));
+    public UiRook(ChessPiece piece, BoardController boardController) {
+        super(piece, new ImageView(UiChessPiece.getPathForPiece(piece)), boardController);
     }
 }

@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 
 public class UiKnight extends UiChessPiece{
 
-    public UiKnight(ChessPiece piece) {
-        super(piece, new ImageView(UiChessPiece.getPathForPiece(piece)));
+    public UiKnight(ChessPiece piece, BoardController boardController) {
+        super(piece, new ImageView(UiChessPiece.getPathForPiece(piece)), boardController);
     }
 }

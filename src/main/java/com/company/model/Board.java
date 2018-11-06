@@ -5,25 +5,39 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
-public class Board implements Saveable{
+public class Board implements Saveable {
 
-    List<ChessPiece> pieces = new ArrayList<ChessPiece>();
+    private List<ChessPiece> pieces = new ArrayList<ChessPiece>();
+    private Stack<Chessturn> stackTurns = new Stack<>();
+    private int turn = 1;
 
-
-    Stack<Chessturn> stackTurns = new Stack<>();
+    public Stack<Chessturn> getStackTurns() {
+        return stackTurns;
+    }
 
     public List<ChessPiece> getPieces() {
         return pieces;
     }
 
-    public Board(JsonObject saveData){
-            JsonArray activePieces = saveData.getJsonArray("activePieces");
-            for(int i = 0; i < activePieces.size(); i++){
-                JsonObject piece = activePieces.getJsonObject(i);
-                ChessPiece e = ChessPiece.fromSaveData(piece);
-                pieces.add(e);
-            }
+    public Board(JsonObject saveData) {
+        JsonArray activePieces = saveData.getJsonArray("activePieces");
+        for (int i = 0; i < activePieces.size(); i++) {
+            JsonObject piece = activePieces.getJsonObject(i);
+            ChessPiece e = ChessPiece.fromSaveData(piece);
+            pieces.add(e);
+        }
+        turn = saveData.getInteger("turn");
+
+        JsonArray turnLog = saveData.getJsonArray("turnLog");
+        for(int i = 0; i < turnLog.size(); i++){
+            JsonObject trnLog = turnLog.getJsonObject(i);
+            Chessturn chessturn = Chessturn.fromSaveData(trnLog);
+            stackTurns.push(chessturn);
+        }
+
     }
 
 
@@ -81,20 +95,33 @@ public class Board implements Saveable{
 
     }
 
+    public int getTurn() {
+        return turn;
+    }
+
+    public ChessPiece.Color whoseTurn() {
+        if (turn % 2 != 0) {
+            return ChessPiece.Color.White;
+        }
+        return ChessPiece.Color.Black;
+    }
+
     public void move(Class type, ChessPiece.Color color, String targetPosition) throws Exception {
 
         for (ChessPiece piece : pieces) {
             if (type.isInstance(piece) && piece.getColor().equals(color)) {
                 String oldPosition = piece.getPosition();
-                move(oldPosition, targetPosition);
+                move(oldPosition, targetPosition, null);
                 break;
             }
         }
-
-
     }
 
     public void move(String oldPosition, String newPosition) throws Exception {
+        move(oldPosition, newPosition, null);
+    }
+
+    public void move(String oldPosition, String newPosition, Consumer<ChessPiece> onEat) throws Exception {
 
         //Check if there is a piece at the old position
         if (!isPieceAtPosition(oldPosition)) {
@@ -112,7 +139,7 @@ public class Board implements Saveable{
             char x = Character.toUpperCase(startPosition.charAt(0));
             char y = startPosition.charAt(1);
 
-            char sX  = x;
+            char sX = x;
             char sY = y;
 
             char newPosX = newPosition.charAt(0);
@@ -121,31 +148,32 @@ public class Board implements Saveable{
             boolean directionX = true;
             boolean directionY = true;
 
-            if(x > newPosX){
+            if (x > newPosX) {
                 directionX = false;
             }
 
-            if(y > newPosY){
+            if (y > newPosY) {
                 directionY = false;
             }
 
 
-            while (!(startPosition.charAt(0) == newPosX) && !(startPosition.charAt(1) == newPosY)) {
-                if (directionX && (x < newPosX - 1 || (sX == x && sX != newPosX))) {
+            while (!(startPosition.charAt(0) == newPosX) || !(startPosition.charAt(1) == newPosY)) {
+                if (directionX && (x < newPosX || (sX == x && sX != newPosX))) {
                     x++;
-                }
-                else if(!directionX && x > newPosX - 1 ||   ((sX == x && sX != newPosX))){
+                } else if (!directionX && x > newPosX || ((sX == x && sX != newPosX))) {
                     x--;
                 }
 
-                if (directionY && (y < newPosY - 1 || (sY == y && sY != newPosY))) {
+                if (directionY && (y < newPosY || (sY == y && sY != newPosY))) {
                     y++;
-                }
-                else if( !directionY && y > newPosY - 1 || (sY == y && sY != newPosY))
-                {
+                } else if (!directionY && y > newPosY || (sY == y && sY != newPosY)) {
                     y--;
                 }
                 startPosition = x + "" + y;
+
+                if ((startPosition.charAt(0) == newPosX) && (startPosition.charAt(1) == newPosY))
+                    break;
+
                 if (isPieceAtPosition(startPosition)) {
                     throw new IllegalChessMoveException("Another piece is in the way");
                 }
@@ -160,13 +188,18 @@ public class Board implements Saveable{
             if (other.getColor().equals(piece.getColor())) {
                 throw new IllegalChessMoveException("Same color");
             } else {
-                pieces.remove(other);
-                if(piece.getClass() == Pawn.class){
+                if (piece.getClass() == Pawn.class) {
                     ((Pawn) piece).moveIt(newPosition);
                 } else piece.move(newPosition);
+
+                pieces.remove(other);
+                if (onEat != null) {
+                    onEat.accept(other);
+                }
             }
         } else piece.move(newPosition);
 
+        turn++;
         stackTurns.push(new Chessturn(piece.getColor(), oldPosition, newPosition));
 
     }
@@ -174,15 +207,20 @@ public class Board implements Saveable{
 
     public void undoTurn() throws Exception {
 
-        if(stackTurns.empty()){
+        if (stackTurns.empty()) {
             throw new Exception("Stack is empty");
         }
 
         String old = stackTurns.peek().getToPos();
-        for(ChessPiece piece : pieces){
-            if(piece.isAtPosition(old)){
+        for (ChessPiece piece : pieces) {
+            if (piece.isAtPosition(old)) {
                 piece.move(stackTurns.peek().getFromPos());
                 stackTurns.pop();
+
+                if (turn < 1) {
+                    throw new Exception("The game just started, no moves were made.");
+                } else turn--;
+
             }
         }
     }
@@ -248,7 +286,6 @@ public class Board implements Saveable{
     }
 
 
-
     @Override
     public String toString() {
         String result = "";
@@ -277,10 +314,17 @@ public class Board implements Saveable{
     public JsonObject getSaveData() {
         JsonObject result = new JsonObject();
         JsonArray pieces = new JsonArray();
-        for(ChessPiece piece : this.pieces){
+        JsonArray chessTurn = new JsonArray();
+
+        for (ChessPiece piece : this.pieces) {
             pieces.add(piece.getSaveData());
         }
-        result.put("activePieces", pieces);
+        for(Chessturn chesTrn : this.getStackTurns()){
+            chessTurn.add(chesTrn.getSaveData());
+        }
+        result.put("activePieces", pieces)
+                .put("turn", turn)
+                .put("turnLog", chessTurn);
         return result;
     }
 }

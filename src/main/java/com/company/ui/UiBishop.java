@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 
 public class UiBishop extends UiChessPiece{
 
-    public UiBishop(ChessPiece piece) {
-        super(piece, new ImageView(UiChessPiece.getPathForPiece(piece)));
+    public UiBishop(ChessPiece piece, BoardController boardController) {
+        super(piece, new ImageView(UiChessPiece.getPathForPiece(piece)), boardController);
     }
 }

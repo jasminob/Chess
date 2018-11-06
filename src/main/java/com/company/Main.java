@@ -8,8 +8,10 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.*;
 import java.util.Scanner;
 
@@ -31,7 +33,11 @@ public class Main extends Application {
     public static Board loadBoard() {
         try {
 
-            FileInputStream stream = new FileInputStream("BoardState.json");
+            FileChooser f = new FileChooser();
+            f.setTitle("Hi");
+            File file = f.showOpenDialog(Main.primaryStage);
+
+            FileInputStream stream = new FileInputStream(file);
             Scanner in = new Scanner(stream);
             JsonObject object = new JsonObject(in.nextLine());
             Board oldBoard = new Board(object);
@@ -80,11 +86,11 @@ public class Main extends Application {
             saveLastBoardState(board);
             if (isWhiteTurn()) {
                 out.println("It's White's turn. Type in the location where you want to move the piece: ");
-                 board.move(in.nextLine(), in.nextLine());
+                 board.move(in.nextLine(), in.nextLine(), null);
                 counter++;
             } else {
                 out.println("It's Black's turn. Type in the location where you want to move the piece: ");
-                  board.move(in.nextLine(), in.nextLine());
+                  board.move(in.nextLine(), in.nextLine(), null);
                 counter++;
             }
             board.check();

@@ -1,10 +1,13 @@
 package com.company.model;
 
 
-public class Chessturn{
+import io.vertx.core.json.JsonObject;
+
+public class Chessturn implements Saveable {
     private ChessPiece.Color color;
     private String fromPos;
     private String toPos;
+
 
     public Chessturn(ChessPiece.Color color, String fromPos, String toPos) {
         this.color = color;
@@ -24,4 +27,20 @@ public class Chessturn{
         return toPos;
     }
 
+    public static Chessturn fromSaveData(JsonObject object) {
+
+        Chessturn chessturn = new Chessturn(ChessPiece.Color.valueOf(object.getString("color")),
+                object.getString("fromPos"), object.getString("toPos"));
+
+        return chessturn;
+
+    }
+
+    @Override
+    public JsonObject getSaveData() {
+        return new JsonObject()
+                .put("color", this.color)
+                .put("fromPos", this.fromPos)
+                .put("toPos", this.toPos);
+    }
 }
