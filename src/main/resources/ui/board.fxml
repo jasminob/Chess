@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
@@ -14,7 +15,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.ui.BoardController">
    <center>
-      <VBox minHeight="700.0" minWidth="700.0" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox minHeight="699.0" minWidth="699.0" prefHeight="699.0" prefWidth="699.0" BorderPane.alignment="CENTER">
          <children>
             <HBox maxWidth="-Infinity" prefHeight="100.0" prefWidth="200.0">
                <children>
@@ -22,7 +23,7 @@
                      <children>
                         <ImageView fx:id="cell1x1" fitHeight="150.0" fitWidth="70.0" onMouseClicked="#onCellClick" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -31,79 +32,87 @@
                      <children>
                         <ImageView fx:id="cell2x1" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="26.0" text="A" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
                      <children>
                         <ImageView fx:id="cell3x1" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="32.0" layoutY="26.0" text="B" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
                      <children>
                         <ImageView fx:id="cell4x1" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="26.0" text="C" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
                      <children>
                         <ImageView fx:id="cell5x1" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="26.0" text="D" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
                      <children>
                         <ImageView fx:id="cell6x1" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="32.0" layoutY="26.0" text="E" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
                      <children>
                         <ImageView fx:id="cell7x1" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="32.0" layoutY="26.0" text="F" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
                      <children>
                         <ImageView fx:id="cell8x1" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="26.0" text="G" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
                      <children>
                         <ImageView fx:id="cell9x1" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="26.0" text="H" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
                      <children>
                         <ImageView fx:id="cell10x1" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -115,9 +124,10 @@
                      <children>
                         <ImageView fx:id="cell1x2" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="27.0" text="1" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane HBox.hgrow="NEVER">
@@ -196,9 +206,10 @@
                      <children>
                         <ImageView fx:id="cell10x2" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="32.0" layoutY="26.0" text="1" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                </children>
@@ -209,9 +220,10 @@
                      <children>
                         <ImageView fx:id="cell1x3" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="27.0" text="2" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
@@ -290,9 +302,10 @@
                      <children>
                         <ImageView fx:id="cell10x3" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="32.0" layoutY="27.0" text="2" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                </children>
@@ -303,9 +316,10 @@
                      <children>
                         <ImageView fx:id="cell1x4" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="27.0" text="3" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane HBox.hgrow="NEVER">
@@ -384,9 +398,10 @@
                      <children>
                         <ImageView fx:id="cell10x4" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="32.0" layoutY="27.0" text="3" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                </children>
@@ -397,9 +412,10 @@
                      <children>
                         <ImageView fx:id="cell1x5" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="27.0" text="4" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
@@ -478,9 +494,10 @@
                      <children>
                         <ImageView fx:id="cell10x5" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="32.0" layoutY="27.0" text="4" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                </children>
@@ -491,9 +508,10 @@
                      <children>
                         <ImageView fx:id="cell1x6" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="27.0" text="5" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane HBox.hgrow="NEVER">
@@ -572,9 +590,10 @@
                      <children>
                         <ImageView fx:id="cell10x6" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="32.0" layoutY="27.0" text="5" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                </children>
@@ -585,9 +604,10 @@
                      <children>
                         <ImageView fx:id="cell1x7" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="27.0" text="6" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
@@ -666,9 +686,10 @@
                      <children>
                         <ImageView fx:id="cell10x7" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="32.0" layoutY="27.0" text="6" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                </children>
@@ -679,9 +700,10 @@
                      <children>
                         <ImageView fx:id="cell1x8" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="27.0" text="7" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane HBox.hgrow="NEVER">
@@ -760,9 +782,10 @@
                      <children>
                         <ImageView fx:id="cell10x8" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="32.0" layoutY="27.0" text="7" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                </children>
@@ -773,9 +796,10 @@
                      <children>
                         <ImageView fx:id="cell1x9" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="27.0" text="8" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
@@ -854,9 +878,10 @@
                      <children>
                         <ImageView fx:id="cell10x9" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="32.0" layoutY="27.0" text="8" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                </children>
@@ -867,7 +892,7 @@
                      <children>
                         <ImageView fx:id="cell1x10" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -876,79 +901,87 @@
                      <children>
                         <ImageView fx:id="cell2x10" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="27.0" text="A" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
                      <children>
                         <ImageView fx:id="cell3x10" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="27.0" text="B" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
                      <children>
                         <ImageView fx:id="cell4x10" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="27.0" text="C" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
                      <children>
                         <ImageView fx:id="cell5x10" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="27.0" text="D" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
                      <children>
                         <ImageView fx:id="cell6x10" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="27.0" text="E" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
                      <children>
                         <ImageView fx:id="cell7x10" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="27.0" text="F" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
                      <children>
                         <ImageView fx:id="cell8x10" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="27.0" text="G" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
                      <children>
                         <ImageView fx:id="cell9x10" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20light_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
+                        <Label layoutX="31.0" layoutY="27.0" text="H" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                   <AnchorPane>
                      <children>
                         <ImageView fx:id="cell10x10" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../square%20brown%20dark_png_256px.png" />
+                              <Image url="@../square%20gray%20dark%20_png_256px.png" />
                            </image>
                         </ImageView>
                      </children>
