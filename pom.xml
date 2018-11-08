@@ -17,22 +17,49 @@
                     <target>8</target>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <minimizeJar>true</minimizeJar>
+                            <createDependencyReducedPom>true</createDependencyReducedPom>
+                            <dependencyReducedPomLocation>
+                                ${java.io.tmpdir}/dependency-reduced-pom.xml
+                            </dependencyReducedPomLocation>
+
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.company.Main</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
     <dependencies>
         <dependency>
-        <groupId>io.vertx</groupId>
-        <artifactId>vertx-core</artifactId>
-        <version>3.5.4</version>
-    </dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-core</artifactId>
+            <version>3.5.4</version>
+        </dependency>
         <dependency>
             <groupId>com.lupon</groupId>
             <artifactId>db_enum_generator</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-.        <!-- https://mvnrepository.com/artifact/com.zenjava/javafx-maven-plugin -->
+        <!-- https://mvnrepository.com/artifact/com.zenjava/javafx-maven-plugin -->
         <dependency>
             <groupId>com.zenjava</groupId>
             <artifactId>javafx-maven-plugin</artifactId>

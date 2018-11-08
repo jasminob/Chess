@@ -131,9 +131,10 @@ public class Board implements Saveable {
         ChessPiece piece = atPosition(oldPosition);
 
 
-        //Check for obstacle for Rook, Bishop, Queen
+        //Check for obstacle for Rook, Bishop, Queen, and Pawn
         if (piece.getClass() == Rook.class
-                || piece.getClass() == Bishop.class || piece.getClass() == Queen.class) {
+                || piece.getClass() == Bishop.class || piece.getClass() == Queen.class
+                || piece.getClass() == Pawn.class) {
 
             String startPosition = piece.getPosition();
             char x = Character.toUpperCase(startPosition.charAt(0));

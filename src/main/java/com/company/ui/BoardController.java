@@ -14,6 +14,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayerBuilder;
 import javafx.stage.FileChooser;
 
 import java.io.*;
@@ -418,17 +421,25 @@ public class BoardController implements Initializable {
 
         turnLog.setText("");
         Iterator<Chessturn> it = board.getStackTurns().iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             Chessturn current = it.next();
-            turnLog.setText(turnLog.getText() + String.format("%s -> %s \n", current.getFromPos(), current.getToPos() ));
+            turnLog.setText(turnLog.getText() + String.format("%s -> %s \n", current.getFromPos(), current.getToPos()));
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         turnLog.clear();
-
+        playMusic();
         refresh();
+    }
+
+    public void playMusic(){
+        //Music
+        Media media = new Media("file:///C:/Applications/Program/Chess/src/main/resources/music.mp3");
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+
     }
 
     public UiChessPiece pieceByImage(ImageView imageView) {
@@ -641,24 +652,30 @@ public class BoardController implements Initializable {
 
     }
 
-    public void removePieceFromUI(UiChessPiece piece){
+    public void removePieceFromUI(UiChessPiece piece) {
 
-            AnchorPane anchorPane = (AnchorPane) piece.getImage().getParent();
-            anchorPane.getChildren().remove(piece.getImage());
-            pieces.remove(piece);
+        AnchorPane anchorPane = (AnchorPane) piece.getImage().getParent();
+        anchorPane.getChildren().remove(piece.getImage());
+        pieces.remove(piece);
 
     }
 
     public void loadGame(ActionEvent actionEvent) {
-        try {
-            while (pieces.size()>0){
-                removePieceFromUI(pieces.get(0));
 
-            }
+        try {
+
 
             FileChooser f = new FileChooser();
-            f.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Bilo sta", ".json"));
+            f.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON (*.json)", "*.json"));
             File file = f.showOpenDialog(Main.primaryStage);
+
+            if (file == null) {
+                throw new Exception("Canceled load");
+            }
+
+            while (pieces.size() > 0) {
+                removePieceFromUI(pieces.get(0));
+            }
 
             FileInputStream stream = new FileInputStream(file);
             Scanner in = new Scanner(stream);
@@ -667,22 +684,30 @@ public class BoardController implements Initializable {
             board = oldBoard;
 
             initializeUIPieces();
-
             refresh();
-        } catch (FileNotFoundException e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    public void saveGame(ActionEvent actionEvent) throws IOException {
+    public void saveGame(ActionEvent actionEvent) throws Exception {
         FileChooser f = new FileChooser();
-        f.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Bilo sta", ".json"));
+        f.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON (*.json)", "*.json"));
         File file = f.showSaveDialog(Main.primaryStage);
 
+        if (file == null) {
+            throw new Exception("Canceled save");
+        }
         FileWriter out = new FileWriter(file);
         out.write(board.getSaveData().toString());
         out.flush();
 
     }
+
+    public void exitGame(ActionEvent actionEvent) {
+        Runtime.getRuntime().exit(0);
+    }
+
 }

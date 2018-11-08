@@ -1005,7 +1005,16 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#loadGame" text="Load Game" />
+                              <Button mnemonicParsing="false" onAction="#loadGame" text="Load Game">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin></Button>
+                              <Button mnemonicParsing="false" text="Surrender">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#exitGame" text="Exit Game" />
                            </children>
                         </VBox>
                      </children></AnchorPane>
