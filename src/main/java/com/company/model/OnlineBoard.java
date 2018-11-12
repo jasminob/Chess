@@ -96,7 +96,14 @@ public class OnlineBoard extends Board {
             lastTurn = turn;
             this.turn++;
 
-            atPosition(turn.getString("from_pos")).move(turn.getString("to_pos"));
+            String to_pos = turn.getString("to_pos");
+            String from_pos = turn.getString("from_pos");
+
+            if ( isPieceAtPosition(to_pos) ) {
+                eater.accept(atPosition(to_pos));
+            }
+
+            atPosition(from_pos).move(to_pos);
         }
 
         refresher.run();
