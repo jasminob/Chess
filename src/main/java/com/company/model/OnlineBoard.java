@@ -106,7 +106,6 @@ public class OnlineBoard extends Board {
         String passId = getPass().toString();
 
         super.move(oldPosition, newPosition, onEat);
-        this.lastTurn = getLastTurn();
 
         post(URL_CREATE_CHESS_TURN, new JsonObject()
                 .put("color", color)
@@ -115,6 +114,9 @@ public class OnlineBoard extends Board {
                 .put("gameId", gameId)
                 .put("pass", passId)
         );
+
+        this.lastTurn = getLastTurn();
+
     }
 
     @Override
