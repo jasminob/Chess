@@ -57,7 +57,7 @@ public abstract class ChessPiece implements Saveable {
     }
 
     public String getPosition() {
-        return position.toLowerCase();
+        return position;
     }
 
 

@@ -4,6 +4,7 @@ import com.company.Main;
 import com.company.model.Board;
 import com.company.model.ChessPiece;
 import com.company.model.Chessturn;
+import com.company.model.OnlineBoard;
 import com.sun.org.apache.regexp.internal.RE;
 import io.vertx.core.json.JsonObject;
 import javafx.event.ActionEvent;
@@ -11,9 +12,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayerBuilder;
 import javafx.stage.FileChooser;
 
 import java.io.*;
@@ -21,7 +26,7 @@ import java.net.URL;
 import java.util.*;
 
 public class BoardController implements Initializable {
-    Board board = new Board();
+    Board board = new OnlineBoard();
     List<UiChessPiece> pieces = new ArrayList<>();
 
     List<ImageView> cells = new ArrayList<>();
@@ -238,6 +243,12 @@ public class BoardController implements Initializable {
     private ImageView cell10x10;
     @FXML
     private TextArea turnLog;
+    @FXML
+    private TextField gameId;
+    @FXML
+    private TextField joinGameId;
+    @FXML
+    private TextField playerId;
 
 
     public ImageView getCellByPosition(String position) {
@@ -418,9 +429,9 @@ public class BoardController implements Initializable {
 
         turnLog.setText("");
         Iterator<Chessturn> it = board.getStackTurns().iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             Chessturn current = it.next();
-            turnLog.setText(turnLog.getText() + String.format("%s -> %s \n", current.getFromPos(), current.getToPos() ));
+            turnLog.setText(turnLog.getText() + String.format("%s -> %s \n", current.getFromPos(), current.getToPos()));
         }
     }
 
@@ -428,7 +439,25 @@ public class BoardController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         turnLog.clear();
 
+
+        if (board instanceof OnlineBoard) {
+            gameId.setText(((OnlineBoard) board).getGameId().toString());
+            playerId.setText(((OnlineBoard) board).getPass().toString());
+
+        }
+
+        playMusic();
+
+
         refresh();
+    }
+
+    public void playMusic() {
+        //Music
+        Media media = new Media("file:///C:/Applications/Program/Chess/src/main/resources/music.mp3");
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+
     }
 
     public UiChessPiece pieceByImage(ImageView imageView) {
@@ -641,24 +670,30 @@ public class BoardController implements Initializable {
 
     }
 
-    public void removePieceFromUI(UiChessPiece piece){
+    public void removePieceFromUI(UiChessPiece piece) {
 
-            AnchorPane anchorPane = (AnchorPane) piece.getImage().getParent();
-            anchorPane.getChildren().remove(piece.getImage());
-            pieces.remove(piece);
+        AnchorPane anchorPane = (AnchorPane) piece.getImage().getParent();
+        anchorPane.getChildren().remove(piece.getImage());
+        pieces.remove(piece);
 
     }
 
     public void loadGame(ActionEvent actionEvent) {
-        try {
-            while (pieces.size()>0){
-                removePieceFromUI(pieces.get(0));
 
-            }
+        try {
+
 
             FileChooser f = new FileChooser();
-            f.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Bilo sta", ".json"));
+            f.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON (*.json)", "*.json"));
             File file = f.showOpenDialog(Main.primaryStage);
+
+            if (file == null) {
+                throw new Exception("Canceled load");
+            }
+
+            while (pieces.size() > 0) {
+                removePieceFromUI(pieces.get(0));
+            }
 
             FileInputStream stream = new FileInputStream(file);
             Scanner in = new Scanner(stream);
@@ -667,22 +702,37 @@ public class BoardController implements Initializable {
             board = oldBoard;
 
             initializeUIPieces();
-
             refresh();
-        } catch (FileNotFoundException e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    public void saveGame(ActionEvent actionEvent) throws IOException {
+    public void saveGame(ActionEvent actionEvent) throws Exception {
         FileChooser f = new FileChooser();
-        f.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Bilo sta", ".json"));
+        f.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON (*.json)", "*.json"));
         File file = f.showSaveDialog(Main.primaryStage);
 
+        if (file == null) {
+            throw new Exception("Canceled save");
+        }
         FileWriter out = new FileWriter(file);
         out.write(board.getSaveData().toString());
         out.flush();
 
     }
+
+    public void exitGame(ActionEvent actionEvent) {
+        Runtime.getRuntime().exit(0);
+    }
+
+    public void joinGame(ActionEvent actionEvent) {
+
+        if (board instanceof OnlineBoard) {
+            ((OnlineBoard) board).joinGame(UUID.fromString(joinGameId.getText()));
+        }
+    }
+
 }
