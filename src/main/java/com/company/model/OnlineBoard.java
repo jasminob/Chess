@@ -43,14 +43,12 @@ public class OnlineBoard extends Board {
                     }
                     else if(this.lastTurn == null && lastTurn != null){
                         move(lastTurn.getString("fromPos"), lastTurn.getString("toPos"));
-                        this.lastTurn = lastTurn;
                     }
                     else if(this.lastTurn.equals(lastTurn)){
                         //SYNCED
                     }
                     else {
                         move(lastTurn.getString("fromPos"), lastTurn.getString("toPos"));
-                        this.lastTurn = lastTurn;
                     }
                 });
     }
@@ -80,6 +78,11 @@ public class OnlineBoard extends Board {
         else return lTurn.getJsonObject(0);
     }
 
+    public ChessPiece.Color getMyColor(){
+        String color = playerObject.getString("color");
+
+        return ChessPiece.Color.valueOf(color);
+    }
 
     private JsonObject joinGame(UUID gameId, ChessPiece.Color color){
        return post(
@@ -90,15 +93,20 @@ public class OnlineBoard extends Board {
 
     @Override
     public void move(String oldPosition, String newPosition, Consumer<ChessPiece> onEat) throws Exception {
-        post(URL_CREATE_CHESS_TURN, new JsonObject()
-                .put("color", whoseTurn().toString())
-                .put("fromPos", oldPosition)
-                .put("toPos", newPosition)
-                .put("gameId", getGameId().toString())
-                .put("pass", getPass().toString())
-        );
+
+        if(getMyColor().equals(this.whoseTurn())) {
+            post(URL_CREATE_CHESS_TURN, new JsonObject()
+                    .put("color", whoseTurn().toString())
+                    .put("fromPos", oldPosition)
+                    .put("toPos", newPosition)
+                    .put("gameId", getGameId().toString())
+                    .put("pass", getPass().toString())
+            );
+        }
 
         super.move(oldPosition, newPosition, onEat);
+
+        this.lastTurn = getLastTurn();
     }
 
 
