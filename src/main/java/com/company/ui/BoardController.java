@@ -7,6 +7,7 @@ import com.company.model.Chessturn;
 import com.company.model.OnlineBoard;
 import com.sun.org.apache.regexp.internal.RE;
 import io.vertx.core.json.JsonObject;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,7 +27,11 @@ import java.net.URL;
 import java.util.*;
 
 public class BoardController implements Initializable {
-    Board board = new OnlineBoard(this::refresh, this::eat);
+    Board board = new OnlineBoard(this::refresh, eaten -> {
+        Platform.runLater(()->{
+            eat(eaten);
+        } );
+    });
     List<UiChessPiece> pieces = new ArrayList<>();
 
     List<ImageView> cells = new ArrayList<>();
@@ -447,8 +452,6 @@ public class BoardController implements Initializable {
         }
 
         playMusic();
-
-
         refresh();
     }
 
