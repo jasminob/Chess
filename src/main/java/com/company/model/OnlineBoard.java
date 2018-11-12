@@ -98,6 +98,10 @@ public class OnlineBoard extends Board {
     }
 
     public void moveLocal(String oldPosition, String newPosition, Consumer<ChessPiece> onEat) throws Exception {
+
+        super.move(oldPosition, newPosition, onEat);
+        this.lastTurn = getLastTurn();
+
         post(URL_CREATE_CHESS_TURN, new JsonObject()
                 .put("color", whoseTurn().toString())
                 .put("fromPos", oldPosition)
@@ -105,10 +109,6 @@ public class OnlineBoard extends Board {
                 .put("gameId", getGameId().toString())
                 .put("pass", getPass().toString())
         );
-
-        super.move(oldPosition, newPosition, onEat);
-
-        this.lastTurn = getLastTurn();
     }
 
     @Override
