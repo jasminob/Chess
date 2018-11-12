@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -1014,7 +1015,41 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#exitGame" text="Exit Game" />
+                              <Button mnemonicParsing="false" onAction="#exitGame" text="Exit Game">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin></Button>
+                              <Label layoutX="10.0" layoutY="255.0" text="Enter Game ID:">
+                                 <padding>
+                                    <Insets bottom="10.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="joinGameId">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Button mnemonicParsing="false" onAction="#joinGame" text="Join Game">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Label layoutX="10.0" layoutY="282.0" text="Game ID:">
+                                 <padding>
+                                    <Insets bottom="10.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="gameId" layoutX="10.0" layoutY="140.0">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label text="Player ID:">
+                                 <padding>
+                                    <Insets bottom="10.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="playerId" />
                            </children>
                         </VBox>
                      </children></AnchorPane>

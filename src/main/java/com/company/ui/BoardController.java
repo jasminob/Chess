@@ -4,6 +4,7 @@ import com.company.Main;
 import com.company.model.Board;
 import com.company.model.ChessPiece;
 import com.company.model.Chessturn;
+import com.company.model.OnlineBoard;
 import com.sun.org.apache.regexp.internal.RE;
 import io.vertx.core.json.JsonObject;
 import javafx.event.ActionEvent;
@@ -11,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -24,7 +26,7 @@ import java.net.URL;
 import java.util.*;
 
 public class BoardController implements Initializable {
-    Board board = new Board();
+    Board board = new OnlineBoard();
     List<UiChessPiece> pieces = new ArrayList<>();
 
     List<ImageView> cells = new ArrayList<>();
@@ -241,6 +243,12 @@ public class BoardController implements Initializable {
     private ImageView cell10x10;
     @FXML
     private TextArea turnLog;
+    @FXML
+    private TextField gameId;
+    @FXML
+    private TextField joinGameId;
+    @FXML
+    private TextField playerId;
 
 
     public ImageView getCellByPosition(String position) {
@@ -430,11 +438,21 @@ public class BoardController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         turnLog.clear();
+
+
+        if (board instanceof OnlineBoard) {
+            gameId.setText(((OnlineBoard) board).getGameId().toString());
+            playerId.setText(((OnlineBoard) board).getPass().toString());
+
+        }
+
         playMusic();
+
+
         refresh();
     }
 
-    public void playMusic(){
+    public void playMusic() {
         //Music
         Media media = new Media("file:///C:/Applications/Program/Chess/src/main/resources/music.mp3");
         MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -708,6 +726,13 @@ public class BoardController implements Initializable {
 
     public void exitGame(ActionEvent actionEvent) {
         Runtime.getRuntime().exit(0);
+    }
+
+    public void joinGame(ActionEvent actionEvent) {
+
+        if (board instanceof OnlineBoard) {
+            ((OnlineBoard) board).joinGame(UUID.fromString(joinGameId.getText()));
+        }
     }
 
 }
