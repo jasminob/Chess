@@ -39,7 +39,7 @@ public class OnlineBoard extends Board {
         gameObject = post(URL_CREATE_GAME);
         playerObject = joinGame(getGameId(), ChessPiece.Color.White);
 
-        Observable.interval(5, TimeUnit.SECONDS)
+        Observable.interval(1, TimeUnit.SECONDS)
                 .subscribe(e -> {
                     JsonObject lastTurn = getLastTurn();
                     if (this.lastTurn == null && lastTurn == null) {
