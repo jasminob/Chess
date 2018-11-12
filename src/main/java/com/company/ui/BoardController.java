@@ -454,7 +454,8 @@ public class BoardController implements Initializable {
 
     public void playMusic() {
         //Music
-        Media media = new Media("file:///C:/Applications/Program/Chess/src/main/resources/music.mp3");
+        URL uri = getClass().getResource("/music.mp3");
+        Media media = new Media(uri.toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
 
