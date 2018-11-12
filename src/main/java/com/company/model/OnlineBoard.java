@@ -42,13 +42,13 @@ public class OnlineBoard extends Board {
                         //IDLE
                     }
                     else if(this.lastTurn == null && lastTurn != null){
-                        move(lastTurn.getString("fromPos"), lastTurn.getString("toPos"));
+                        moveOnline(lastTurn.getString("fromPos"), lastTurn.getString("toPos"), null);
                     }
                     else if(this.lastTurn.equals(lastTurn)){
                         //SYNCED
                     }
                     else {
-                        move(lastTurn.getString("fromPos"), lastTurn.getString("toPos"));
+                        moveOnline(lastTurn.getString("fromPos"), lastTurn.getString("toPos"), null);
                     }
                 });
     }
@@ -91,22 +91,32 @@ public class OnlineBoard extends Board {
         );
     }
 
-    @Override
-    public void move(String oldPosition, String newPosition, Consumer<ChessPiece> onEat) throws Exception {
+    private void moveOnline(String oldPosition, String newPosition, Consumer<ChessPiece> onEat) throws Exception {
+        super.move(oldPosition, newPosition, onEat);
+        this.lastTurn = getLastTurn();
+    }
 
-        if(getMyColor().equals(this.whoseTurn())) {
-            post(URL_CREATE_CHESS_TURN, new JsonObject()
-                    .put("color", whoseTurn().toString())
-                    .put("fromPos", oldPosition)
-                    .put("toPos", newPosition)
-                    .put("gameId", getGameId().toString())
-                    .put("pass", getPass().toString())
-            );
-        }
+    public void moveLocal(String oldPosition, String newPosition, Consumer<ChessPiece> onEat) throws Exception {
+        post(URL_CREATE_CHESS_TURN, new JsonObject()
+                .put("color", whoseTurn().toString())
+                .put("fromPos", oldPosition)
+                .put("toPos", newPosition)
+                .put("gameId", getGameId().toString())
+                .put("pass", getPass().toString())
+        );
 
         super.move(oldPosition, newPosition, onEat);
 
         this.lastTurn = getLastTurn();
+    }
+
+    @Override
+    public void move(String oldPosition, String newPosition, Consumer<ChessPiece> onEat) throws Exception {
+        if ( !whoseTurn().equals(getMyColor()) ) {
+            throw new Exception("Not my turn!");
+        }
+
+        this.moveLocal(oldPosition, newPosition, onEat);
     }
 
 
