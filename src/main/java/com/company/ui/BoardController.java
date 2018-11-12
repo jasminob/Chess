@@ -26,7 +26,7 @@ import java.net.URL;
 import java.util.*;
 
 public class BoardController implements Initializable {
-    Board board = new OnlineBoard();
+    Board board = new OnlineBoard(this::refresh, this::eat);
     List<UiChessPiece> pieces = new ArrayList<>();
 
     List<ImageView> cells = new ArrayList<>();
@@ -623,6 +623,14 @@ public class BoardController implements Initializable {
 
     }
 
+    private void eat(ChessPiece eaten) {
+        for (UiChessPiece piece : pieces) {
+            if (piece.getPiece().equals(eaten)) {
+                removePieceFromUI(piece);
+                break;
+            }
+        }
+    }
 
     public void onCellClick(MouseEvent event) throws Exception {
 
@@ -639,14 +647,7 @@ public class BoardController implements Initializable {
             String from = markedPiece.getPiece().getPosition();
             String to = getPositionByCell(imageView);
 
-            board.move(from, to, (eaten) -> {
-                for (UiChessPiece piece : pieces) {
-                    if (piece.getPiece().equals(eaten)) {
-                        removePieceFromUI(piece);
-                        break;
-                    }
-                }
-            });
+            board.move(from, to, this::eat);
 
             refresh();
 

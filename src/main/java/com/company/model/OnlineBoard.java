@@ -24,36 +24,36 @@ public class OnlineBoard extends Board {
     Vertx vertx = Vertx.vertx();
 
 
-
     JsonObject gameObject;
     JsonObject playerObject;
     JsonObject lastTurn;
 
-    public OnlineBoard() {
-        client = WebClient.create(vertx);
+    Runnable refresher;
+    Consumer<ChessPiece> eater;
 
+    public OnlineBoard(Runnable refresher, Consumer<ChessPiece> eater) {
+        client = WebClient.create(vertx);
+        this.refresher = refresher;
+        this.eater = eater;
         gameObject = post(URL_CREATE_GAME);
         playerObject = joinGame(getGameId(), ChessPiece.Color.White);
 
         Observable.interval(5, TimeUnit.SECONDS)
-                .subscribe( e-> {
-                   JsonObject lastTurn = getLastTurn();
-                    if(this.lastTurn == null && lastTurn == null){
+                .subscribe(e -> {
+                    JsonObject lastTurn = getLastTurn();
+                    if (this.lastTurn == null && lastTurn == null) {
                         //IDLE
-                    }
-                    else if(this.lastTurn == null && lastTurn != null){
-                        moveOnline(lastTurn.getString("from_pos"), lastTurn.getString("to_pos"), null);
-                    }
-                    else if(this.lastTurn.equals(lastTurn)){
+                    } else if (this.lastTurn == null && lastTurn != null) {
+                        moveOnline(lastTurn.getString("from_pos"), lastTurn.getString("to_pos"));
+                    } else if (this.lastTurn.equals(lastTurn)) {
                         //SYNCED
-                    }
-                    else {
-                        moveOnline(lastTurn.getString("from_pos"), lastTurn.getString("to_pos"), null);
+                    } else {
+                        moveOnline(lastTurn.getString("from_pos"), lastTurn.getString("to_pos"));
                     }
                 });
     }
 
-    public UUID getPass(){
+    public UUID getPass() {
         return UUID.fromString(playerObject.getString("pass"));
     }
 
@@ -61,39 +61,38 @@ public class OnlineBoard extends Board {
         return UUID.fromString(gameObject.getString("id"));
     }
 
-    public void joinGame(UUID gameId){
+    public void joinGame(UUID gameId) {
         playerObject = joinGame(gameId, ChessPiece.Color.Black);
         gameObject = get(URL_JOIN_GAME + gameId.toString());
     }
 
 
-    public JsonObject getLastTurn(){
+    public JsonObject getLastTurn() {
 
         JsonArray lTurn = getArray(URL_GET_TURNS + getGameId() + "/" + 1);
 
-        if(lTurn.size() < 1)
-        {
+        if (lTurn.size() < 1) {
             return null;
-        }
-        else return lTurn.getJsonObject(0);
+        } else return lTurn.getJsonObject(0);
     }
 
-    public ChessPiece.Color getMyColor(){
+    public ChessPiece.Color getMyColor() {
         String color = playerObject.getString("color");
 
         return ChessPiece.Color.valueOf(color);
     }
 
-    private JsonObject joinGame(UUID gameId, ChessPiece.Color color){
-       return post(
+    private JsonObject joinGame(UUID gameId, ChessPiece.Color color) {
+        return post(
                 URL_CREATE_PLAYER,
                 new JsonObject().put("gameId", gameId.toString()).put("color", color.toString())
         );
     }
 
-    private void moveOnline(String oldPosition, String newPosition, Consumer<ChessPiece> onEat) throws Exception {
-        super.move(oldPosition, newPosition, onEat);
+    private void moveOnline(String oldPosition, String newPosition) throws Exception {
+        super.move(oldPosition, newPosition, eater);
         this.lastTurn = getLastTurn();
+        refresher.run();
     }
 
     public void moveLocal(String oldPosition, String newPosition, Consumer<ChessPiece> onEat) throws Exception {
@@ -112,13 +111,12 @@ public class OnlineBoard extends Board {
 
     @Override
     public void move(String oldPosition, String newPosition, Consumer<ChessPiece> onEat) throws Exception {
-        if ( !whoseTurn().equals(getMyColor()) ) {
+        if (!whoseTurn().equals(getMyColor())) {
             throw new Exception("Not my turn!");
         }
 
         this.moveLocal(oldPosition, newPosition, onEat);
     }
-
 
 
     private JsonObject post(String url) {
@@ -128,15 +126,17 @@ public class OnlineBoard extends Board {
     private JsonObject post(String url, JsonObject body) {
         HttpRequest<Buffer> request = client.postAbs(url).putHeader("Content-Type", "application/json");
 
-        if ( body == null )
+        if (body == null)
             return request.rxSend().blockingGet().bodyAsJsonObject();
         else {
             return request.rxSendJson(body).blockingGet().bodyAsJsonObject();
         }
     }
+
     private JsonObject get(String url) {
         return client.getAbs(url).rxSend().blockingGet().bodyAsJsonObject();
     }
+
     private JsonArray getArray(String url) {
         return client.getAbs(url).rxSend().blockingGet().bodyAsJsonArray();
     }
