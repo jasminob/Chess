@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class OnlineBoard extends Board {
-    private final static String HOST = "http://localhost:8080";
+    private final static String HOST = "http://10.0.1.86:8080";
     private final static String URL_CREATE_GAME = HOST + "/createGame";
     private final static String URL_CREATE_CHESS_TURN = HOST + "/createChessTurn";
     private final static String URL_CREATE_PLAYER = HOST + "/createPlayer";
@@ -103,7 +103,18 @@ public class OnlineBoard extends Board {
                 eater.accept(atPosition(to_pos));
             }
 
-            atPosition(from_pos).move(to_pos);
+            ChessPiece piece = atPosition(from_pos);
+            try {
+                piece.move(to_pos);
+            } catch ( Exception ex ) {
+                // special case: maybe pawn had a special movement
+                if ( piece instanceof Pawn ) {
+                    ((Pawn) piece).moveIt(to_pos);
+                } else {
+                    // nvm, continue throwing
+                    throw ex;
+                }
+            }
         }
 
         refresher.run();
