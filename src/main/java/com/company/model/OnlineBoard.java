@@ -20,7 +20,7 @@ public class OnlineBoard extends Board {
     private final static String URL_CREATE_PLAYER = HOST + "/createPlayer";
     private final static String URL_JOIN_GAME = HOST + "/getGameById/";
     private final static String URL_GET_TURNS = HOST + "/getTurns/";
-    private final static String URL_GET_PLAYER = HOST + "/getGameById/";
+    private final static String URL_GET_PLAYER = HOST + "/getPlayerById/";
 
     WebClient client;
     Vertx vertx = Vertx.vertx();
