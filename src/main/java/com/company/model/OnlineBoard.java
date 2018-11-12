@@ -94,6 +94,7 @@ public class OnlineBoard extends Board {
         for ( int i = allTurns.size() - 1; i >= 0; -- i ) {
             JsonObject turn = allTurns.getJsonObject(i);
             lastTurn = turn;
+            this.turn++;
 
             atPosition(turn.getString("from_pos")).move(turn.getString("to_pos"));
         }

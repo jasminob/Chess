@@ -12,7 +12,7 @@ public class Board implements Saveable {
 
     private List<ChessPiece> pieces = new ArrayList<ChessPiece>();
     private Stack<Chessturn> stackTurns = new Stack<>();
-    private int turn = 1;
+    protected int turn = 1;
 
     public Stack<Chessturn> getStackTurns() {
         return stackTurns;
