@@ -42,13 +42,13 @@ public class OnlineBoard extends Board {
                         //IDLE
                     }
                     else if(this.lastTurn == null && lastTurn != null){
-                        moveOnline(lastTurn.getString("fromPos"), lastTurn.getString("toPos"), null);
+                        moveOnline(lastTurn.getString("from_pos"), lastTurn.getString("to_pos"), null);
                     }
                     else if(this.lastTurn.equals(lastTurn)){
                         //SYNCED
                     }
                     else {
-                        moveOnline(lastTurn.getString("fromPos"), lastTurn.getString("toPos"), null);
+                        moveOnline(lastTurn.getString("from_pos"), lastTurn.getString("to_pos"), null);
                     }
                 });
     }
