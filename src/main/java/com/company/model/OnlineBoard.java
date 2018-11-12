@@ -20,6 +20,7 @@ public class OnlineBoard extends Board {
     private final static String URL_CREATE_PLAYER = HOST + "/createPlayer";
     private final static String URL_JOIN_GAME = HOST + "/getGameById/";
     private final static String URL_GET_TURNS = HOST + "/getTurns/";
+    private final static String URL_GET_PLAYER = HOST + "/getGameById/";
 
     WebClient client;
     Vertx vertx = Vertx.vertx();
@@ -28,6 +29,7 @@ public class OnlineBoard extends Board {
     JsonObject gameObject;
     JsonObject playerObject;
     JsonObject lastTurn;
+
 
     Runnable refresher;
     Consumer<ChessPiece> eater;
@@ -49,6 +51,9 @@ public class OnlineBoard extends Board {
                     } else if (this.lastTurn.equals(lastTurn)) {
                         //SYNCED
                     } else {
+                        System.out.println(this.lastTurn.encode());
+                        System.out.println("vs");
+                        System.out.println(lastTurn.encode());
                         moveOnline(lastTurn.getString("from_pos"), lastTurn.getString("to_pos"));
                     }
                 });
@@ -62,9 +67,16 @@ public class OnlineBoard extends Board {
         return UUID.fromString(gameObject.getString("id"));
     }
 
-    public void joinGame(UUID gameId) {
-        playerObject = joinGame(gameId, ChessPiece.Color.Black);
+    public void joinGame(UUID gameId, UUID playerId) throws Exception {
+
+        if(playerId == null) {
+            playerObject = joinGame(gameId, ChessPiece.Color.Black);
+        }
+        else {
+            playerObject = get(URL_GET_PLAYER + playerId.toString());
+        }
         gameObject = get(URL_JOIN_GAME + gameId.toString());
+        resumeOnline();
     }
 
 
@@ -75,6 +87,18 @@ public class OnlineBoard extends Board {
         if (lTurn.size() < 1) {
             return null;
         } else return lTurn.getJsonObject(0);
+    }
+
+    private void resumeOnline() throws Exception {
+        JsonArray allTurns = getArray(URL_GET_TURNS + getGameId() + "/" + -1);
+        for ( int i = allTurns.size() - 1; i >= 0; -- i ) {
+            JsonObject turn = allTurns.getJsonObject(i);
+            lastTurn = turn;
+
+            atPosition(turn.getString("from_pos")).move(turn.getString("to_pos"));
+        }
+
+        refresher.run();
     }
 
     public ChessPiece.Color getMyColor() {

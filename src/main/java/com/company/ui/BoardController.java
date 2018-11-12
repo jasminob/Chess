@@ -28,9 +28,9 @@ import java.util.*;
 
 public class BoardController implements Initializable {
     Board board = new OnlineBoard(this::refresh, eaten -> {
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             eat(eaten);
-        } );
+        });
     });
     List<UiChessPiece> pieces = new ArrayList<>();
 
@@ -254,6 +254,8 @@ public class BoardController implements Initializable {
     private TextField joinGameId;
     @FXML
     private TextField playerId;
+    @FXML
+    private TextField joinGamePlayerId;
 
 
     public ImageView getCellByPosition(String position) {
@@ -686,8 +688,6 @@ public class BoardController implements Initializable {
     public void loadGame(ActionEvent actionEvent) {
 
         try {
-
-
             FileChooser f = new FileChooser();
             f.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON (*.json)", "*.json"));
             File file = f.showOpenDialog(Main.primaryStage);
@@ -733,10 +733,21 @@ public class BoardController implements Initializable {
         Runtime.getRuntime().exit(0);
     }
 
-    public void joinGame(ActionEvent actionEvent) {
+    public void joinGame(ActionEvent actionEvent) throws Exception {
 
         if (board instanceof OnlineBoard) {
-            ((OnlineBoard) board).joinGame(UUID.fromString(joinGameId.getText()));
+            String text = joinGamePlayerId.getText();
+            UUID playerId;
+
+            if(text.isEmpty()){
+                playerId = null;
+            }
+            else {
+                playerId = UUID.fromString(text);
+            }
+
+            ((OnlineBoard) board).joinGame(UUID.fromString(joinGameId.getText()),
+                    playerId);
         }
     }
 

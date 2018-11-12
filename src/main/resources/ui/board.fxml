@@ -1029,6 +1029,16 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </TextField>
+                              <Label layoutX="10.0" layoutY="150.0" text="Username">
+                                 <padding>
+                                    <Insets bottom="10.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="joinGamePlayerId" layoutX="10.0" layoutY="177.0">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </TextField>
                               <Button mnemonicParsing="false" onAction="#joinGame" text="Join Game">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
