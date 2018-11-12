@@ -7,6 +7,7 @@ import io.vertx.reactivex.core.Vertx;
 import io.vertx.reactivex.core.buffer.Buffer;
 import io.vertx.reactivex.ext.web.client.HttpRequest;
 import io.vertx.reactivex.ext.web.client.WebClient;
+import javafx.application.Platform;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -92,7 +93,8 @@ public class OnlineBoard extends Board {
     private void moveOnline(String oldPosition, String newPosition) throws Exception {
         super.move(oldPosition, newPosition, eater);
         this.lastTurn = getLastTurn();
-        refresher.run();
+
+        Platform.runLater(refresher);
     }
 
     public void moveLocal(String oldPosition, String newPosition, Consumer<ChessPiece> onEat) throws Exception {
